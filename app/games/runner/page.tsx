@@ -64,17 +64,17 @@ interface FloatingText {
 
 const CHARACTERS: Character[] = [
   { name: '수현', emoji: '😎', color: '#9B59B6', heart: '💜' },
-  { name: '이현', emoji: '🤓', color: '#3498DB', heart: '💙' },
+  { name: '이현', emoji: '👸', color: '#FF69B4', heart: '💗' },
   { name: '은영', emoji: '🥰', color: '#E91E8C', heart: '💗' },
   { name: '민구', emoji: '😜', color: '#2ECC71', heart: '💚' },
 ];
 
-const GRAVITY = 0.6;
-const JUMP_FORCE = -13;
-const HIGH_JUMP_FORCE = -16;
+const GRAVITY = 0.45;
+const JUMP_FORCE = -15;
+const HIGH_JUMP_FORCE = -19;
 const GROUND_HEIGHT_RATIO = 0.18;
 const PLAYER_SIZE = 40;
-const MIN_OBSTACLE_GAP = 280;
+const MIN_OBSTACLE_GAP = 380;
 
 // ─── Audio ───────────────────────────────────────────────────────────────────
 
@@ -193,7 +193,7 @@ export default function RunnerGame() {
     // Game state
     let groundH = canvas.height * GROUND_HEIGHT_RATIO;
     let groundY = canvas.height - groundH;
-    let speed = 5;
+    let speed = 3.5;
     let score = 0;
     let distance = 0;
     let collectibleScore = 0;
@@ -237,7 +237,7 @@ export default function RunnerGame() {
         x: i * (canvas.width / 4) - 100,
         width: 200 + Math.random() * 300,
         height: 60 + Math.random() * 100,
-        color: `hsl(${120 + Math.random() * 30}, ${50 + Math.random() * 20}%, ${55 + Math.random() * 20}%)`,
+        color: `hsl(${100 + Math.random() * 60}, ${40 + Math.random() * 20}%, ${72 + Math.random() * 12}%)`,
       });
     }
 
@@ -249,13 +249,13 @@ export default function RunnerGame() {
       let height = 30;
 
       if (type === 'rock') {
-        width = 25 + Math.random() * 20;
-        height = 20 + Math.random() * 15;
+        width = 17 + Math.random() * 14;
+        height = 14 + Math.random() * 10;
       } else if (type === 'tree') {
         width = 30;
-        height = 50 + Math.random() * 30;
+        height = 40 + Math.random() * 24;
       } else {
-        width = 50 + Math.random() * 40;
+        width = 35 + Math.random() * 28;
         height = groundH + 10;
       }
 
@@ -417,33 +417,48 @@ export default function RunnerGame() {
     const drawRock = (obs: Obstacle) => {
       const rx = obs.x + obs.width / 2;
       const ry = groundY - obs.height / 2;
-      ctx.fillStyle = '#7f8c8d';
+      // Cute round rock with pastel color
+      ctx.fillStyle = '#C9B8D8';
       ctx.beginPath();
-      ctx.ellipse(rx, ry + obs.height * 0.1, obs.width / 2, obs.height / 2, 0, 0, Math.PI * 2);
+      ctx.ellipse(rx, ry + obs.height * 0.15, obs.width / 2 + 2, obs.height / 2, 0, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = '#95a5a6';
+      ctx.fillStyle = '#DDD0EA';
       ctx.beginPath();
-      ctx.ellipse(rx - 3, ry - 2, obs.width / 3, obs.height / 3, -0.2, 0, Math.PI * 2);
+      ctx.ellipse(rx - 2, ry - 1, obs.width / 3, obs.height / 3.5, -0.2, 0, Math.PI * 2);
+      ctx.fill();
+      // Cute face dot
+      ctx.fillStyle = 'rgba(180,150,200,0.5)';
+      ctx.beginPath();
+      ctx.arc(rx + obs.width * 0.15, ry + obs.height * 0.1, 2, 0, Math.PI * 2);
       ctx.fill();
     };
 
     const drawTree = (obs: Obstacle) => {
       const tx = obs.x + obs.width / 2;
       const ty = groundY;
-      // Trunk
-      ctx.fillStyle = '#8B4513';
-      ctx.fillRect(tx - 5, ty - obs.height, 10, obs.height);
-      // Leaves
-      ctx.fillStyle = '#27ae60';
+      // Cute pastel trunk
+      ctx.fillStyle = '#D4956A';
+      const trunkW = 8;
       ctx.beginPath();
-      ctx.arc(tx, ty - obs.height, 20, 0, Math.PI * 2);
+      ctx.roundRect(tx - trunkW / 2, ty - obs.height, trunkW, obs.height, 4);
       ctx.fill();
-      ctx.fillStyle = '#2ecc71';
+      // Leaves - big fluffy cartoon circles
+      const leafY = ty - obs.height;
+      ctx.fillStyle = '#88D870';
       ctx.beginPath();
-      ctx.arc(tx - 8, ty - obs.height + 8, 14, 0, Math.PI * 2);
+      ctx.arc(tx, leafY, 22, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#A0E890';
+      ctx.beginPath();
+      ctx.arc(tx - 10, leafY + 10, 16, 0, Math.PI * 2);
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(tx + 8, ty - obs.height + 8, 14, 0, Math.PI * 2);
+      ctx.arc(tx + 10, leafY + 10, 16, 0, Math.PI * 2);
+      ctx.fill();
+      // Highlight shine
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      ctx.beginPath();
+      ctx.arc(tx - 5, leafY - 7, 8, 0, Math.PI * 2);
       ctx.fill();
     };
 
@@ -460,8 +475,8 @@ export default function RunnerGame() {
       if (alive) {
         distance += speed;
         score = Math.floor(distance / 10) + collectibleScore;
-        speed = 5 + Math.floor(distance / 800) * 0.5;
-        if (speed > 15) speed = 15;
+        speed = 3.5 + Math.floor(distance / 1200) * 0.3;
+        if (speed > 10) speed = 10;
         bouncePhase += 0.15 * speed;
 
         // Jump physics
@@ -506,11 +521,11 @@ export default function RunnerGame() {
             const obsRight = obs.x + obs.width;
             const obsTop = groundY - obs.height;
 
-            const pLeft = playerX + 5;
-            const pRight = playerX + PLAYER_SIZE - 5;
+            const pLeft = playerX + 12;
+            const pRight = playerX + PLAYER_SIZE - 12;
             const pBottom = playerY + PLAYER_SIZE;
 
-            if (pRight > obsLeft && pLeft < obsRight && pBottom > obsTop + 5) {
+            if (pRight > obsLeft && pLeft < obsRight && pBottom > obsTop + 12) {
               alive = false;
               sound.gameOver();
             }
@@ -606,10 +621,11 @@ export default function RunnerGame() {
       });
 
       // ── Draw ──
-      // Sky gradient
+      // Sky gradient (pastel cute)
       const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      skyGrad.addColorStop(0, '#87CEEB');
-      skyGrad.addColorStop(0.6, '#B5E8F7');
+      skyGrad.addColorStop(0, '#FFD6EC');
+      skyGrad.addColorStop(0.4, '#FFE8F7');
+      skyGrad.addColorStop(0.75, '#D6EEFF');
       skyGrad.addColorStop(1, '#E8F8E8');
       ctx.fillStyle = skyGrad;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -637,16 +653,16 @@ export default function RunnerGame() {
         ctx.fill();
       }
 
-      // Ground
+      // Ground (soft pastel green)
       const groundGrad = ctx.createLinearGradient(0, groundY, 0, canvas.height);
-      groundGrad.addColorStop(0, '#7CB342');
-      groundGrad.addColorStop(0.3, '#689F38');
-      groundGrad.addColorStop(1, '#558B2F');
+      groundGrad.addColorStop(0, '#A8D870');
+      groundGrad.addColorStop(0.3, '#90C755');
+      groundGrad.addColorStop(1, '#78B040');
       ctx.fillStyle = groundGrad;
       ctx.fillRect(0, groundY, canvas.width, groundH);
 
       // Ground detail line
-      ctx.strokeStyle = '#8BC34A';
+      ctx.strokeStyle = '#C5E88A';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(0, groundY);
@@ -654,7 +670,7 @@ export default function RunnerGame() {
       ctx.stroke();
 
       // Ground grass tufts
-      ctx.fillStyle = '#8BC34A';
+      ctx.fillStyle = '#B8E070';
       for (let gx = 0; gx < canvas.width; gx += 40) {
         const offset = (gx + distance * 0.5) % 40;
         ctx.beginPath();
@@ -662,6 +678,19 @@ export default function RunnerGame() {
         ctx.lineTo(gx - offset, groundY - 6);
         ctx.lineTo(gx - offset + 3, groundY);
         ctx.fill();
+      }
+
+      // Flower decorations on ground
+      const flowerEmojis = ['🌸', '🌼', '🌺'];
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (let gx = 60; gx < canvas.width; gx += 120) {
+        const offset = (gx + distance * 0.5) % canvas.width;
+        const fx = gx - offset;
+        if (fx > -20 && fx < canvas.width + 20) {
+          ctx.fillText(flowerEmojis[Math.floor((gx / 120) % flowerEmojis.length)], fx, groundY + 12);
+        }
       }
 
       // Draw gaps (cut ground)
@@ -688,7 +717,7 @@ export default function RunnerGame() {
         ctx.font = '24px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        const bobY = col.y + Math.sin(Date.now() / 200 + col.x) * 5;
+        const bobY = col.y + Math.sin(Date.now() / 150 + col.x) * 10;
         // Glow
         ctx.fillStyle = col.type === 'star' ? 'rgba(241,196,15,0.3)' : 'rgba(231,76,60,0.3)';
         ctx.beginPath();
@@ -786,13 +815,16 @@ export default function RunnerGame() {
         const cx = canvas.width / 2;
         const cy = canvas.height / 2;
 
-        // Panel
-        ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        // Panel (cute pastel gradient)
+        const panelGrad = ctx.createLinearGradient(cx, cy - 140, cx, cy + 140);
+        panelGrad.addColorStop(0, '#FFF0FA');
+        panelGrad.addColorStop(1, '#F0F4FF');
         const pw = Math.min(360, canvas.width - 40);
-        const ph = 280;
+        const ph = 300;
         const px = cx - pw / 2;
         const py = cy - ph / 2;
-        const pr = 20;
+        const pr = 24;
+        ctx.fillStyle = panelGrad;
         ctx.beginPath();
         ctx.moveTo(px + pr, py);
         ctx.lineTo(px + pw - pr, py);
@@ -804,33 +836,51 @@ export default function RunnerGame() {
         ctx.lineTo(px, py + pr);
         ctx.quadraticCurveTo(px, py, px + pr, py);
         ctx.fill();
+        // Cute border
+        ctx.strokeStyle = '#FFB8D8';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(px + pr, py);
+        ctx.lineTo(px + pw - pr, py);
+        ctx.quadraticCurveTo(px + pw, py, px + pw, py + pr);
+        ctx.lineTo(px + pw, py + ph - pr);
+        ctx.quadraticCurveTo(px + pw, py + ph, px + pw - pr, py + ph);
+        ctx.lineTo(px + pr, py + ph);
+        ctx.quadraticCurveTo(px, py + ph, px, py + ph - pr);
+        ctx.lineTo(px, py + pr);
+        ctx.quadraticCurveTo(px, py, px + pr, py);
+        ctx.stroke();
 
         ctx.shadowColor = 'transparent';
 
-        ctx.font = 'bold 32px sans-serif';
-        ctx.fillStyle = '#e74c3c';
+        // Big cute emoji
+        ctx.font = '52px sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('게임 오버! 😢', cx, py + 45);
+        ctx.fillText('😢', cx, py + 45);
+
+        ctx.font = 'bold 26px sans-serif';
+        ctx.fillStyle = '#E05090';
+        ctx.fillText('게임 오버!', cx, py + 90);
 
         ctx.font = '22px sans-serif';
-        ctx.fillStyle = '#333';
-        ctx.fillText(`${char.heart} 점수: ${score}점`, cx, py + 95);
+        ctx.fillStyle = '#555';
+        ctx.fillText(`${char.heart} 점수: ${score}점`, cx, py + 128);
 
         // High score
         const isNewHigh = score > highScore;
         const displayHigh = isNewHigh ? score : highScore;
         ctx.font = '18px sans-serif';
-        ctx.fillStyle = isNewHigh ? '#e74c3c' : '#888';
-        ctx.fillText(isNewHigh ? '🎉 새 최고기록! 🎉' : `🏆 최고기록: ${displayHigh}점`, cx, py + 130);
+        ctx.fillStyle = isNewHigh ? '#E05090' : '#AAA';
+        ctx.fillText(isNewHigh ? '🎉 새 최고기록! 🎉' : `🏆 최고기록: ${displayHigh}점`, cx, py + 162);
 
-        // Restart button
-        ctx.fillStyle = char.color;
-        const bw = 180;
-        const bh = 48;
+        // Restart button (cute pink)
+        ctx.fillStyle = '#FF85B3';
+        const bw = 190;
+        const bh = 50;
         const bx = cx - bw / 2;
-        const by = py + 165;
-        const br = 24;
+        const by = py + 192;
+        const br = 25;
         ctx.beginPath();
         ctx.moveTo(bx + br, by);
         ctx.lineTo(bx + bw - br, by);
@@ -848,7 +898,7 @@ export default function RunnerGame() {
         ctx.fillText('다시 달리기! 🏃‍♀️', cx, by + bh / 2);
 
         // Home button
-        ctx.fillStyle = '#95a5a6';
+        ctx.fillStyle = '#C8C0D8';
         const hbw = 140;
         const hbh = 40;
         const hbx = cx - hbw / 2;
@@ -930,7 +980,7 @@ export default function RunnerGame() {
         style={{
           width: '100vw',
           height: '100dvh',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: 'linear-gradient(135deg, #FFE8F0 0%, #E0F0FF 100%)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -947,10 +997,10 @@ export default function RunnerGame() {
             position: 'absolute',
             top: 16,
             left: 16,
-            color: '#fff',
+            color: '#D05090',
             textDecoration: 'none',
             fontSize: '18px',
-            background: 'rgba(255,255,255,0.2)',
+            background: 'rgba(255,255,255,0.6)',
             borderRadius: 20,
             padding: '8px 16px',
             backdropFilter: 'blur(4px)',
@@ -962,18 +1012,18 @@ export default function RunnerGame() {
         {/* Title */}
         <h1
           style={{
-            color: '#fff',
+            color: '#D05090',
             fontSize: 'clamp(28px, 6vw, 48px)',
             fontWeight: 'bold',
             marginBottom: 8,
-            textShadow: '2px 2px 8px rgba(0,0,0,0.3)',
+            textShadow: '1px 2px 6px rgba(200,100,160,0.25)',
           }}
         >
           🏃‍♀️ 캐릭터 달리기
         </h1>
         <p
           style={{
-            color: 'rgba(255,255,255,0.9)',
+            color: '#8090B0',
             fontSize: 'clamp(14px, 3vw, 18px)',
             marginBottom: 32,
           }}
@@ -983,7 +1033,7 @@ export default function RunnerGame() {
 
         {/* High Score */}
         {highScore > 0 && (
-          <p style={{ color: '#ffd700', fontSize: 16, marginBottom: 16 }}>
+          <p style={{ color: '#D0A000', fontSize: 16, marginBottom: 16 }}>
             🏆 최고기록: {highScore}점
           </p>
         )}
@@ -1004,7 +1054,7 @@ export default function RunnerGame() {
               key={c.name}
               onClick={() => startGame(i)}
               style={{
-                background: 'rgba(255,255,255,0.15)',
+                background: 'rgba(255,255,255,0.75)',
                 backdropFilter: 'blur(8px)',
                 border: `3px solid ${c.color}`,
                 borderRadius: 20,
@@ -1015,7 +1065,7 @@ export default function RunnerGame() {
                 alignItems: 'center',
                 gap: 8,
                 transition: 'transform 0.15s, box-shadow 0.15s',
-                color: '#fff',
+                color: '#555',
               }}
               onMouseEnter={(e) => {
                 (e.target as HTMLElement).style.transform = 'scale(1.05)';
@@ -1038,7 +1088,7 @@ export default function RunnerGame() {
         <div
           style={{
             marginTop: 28,
-            color: 'rgba(255,255,255,0.8)',
+            color: '#8090B0',
             textAlign: 'center',
             fontSize: 'clamp(12px, 2.5vw, 14px)',
             lineHeight: 1.6,

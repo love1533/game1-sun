@@ -31,12 +31,12 @@ interface ConfettiParticle {
 // ─── Characters ───────────────────────────────────────────────────────────────
 const CHARACTERS = [
   { name: '수현', color: '#9B59B6', emoji: '😎' },
-  { name: '이현', color: '#3498DB', emoji: '🤓' },
+  { name: '이현', color: '#FF69B4', emoji: '👸' },
   { name: '은영', color: '#E91E8C', emoji: '🥰' },
   { name: '민구', color: '#2ECC71', emoji: '😜' },
 ];
 
-const CARD_EMOJIS = ['😎', '🤓', '🥰', '😜', '🍰', '🎂', '🍩', '🍭'];
+const CARD_EMOJIS = ['🐰', '🐱', '🐻', '🦊', '🐼', '🐶'];
 
 const PASTEL_BACKS = [
   '#FFD1DC', '#BAFFC9', '#BAE1FF', '#FFFFBA',
@@ -191,7 +191,7 @@ export default function MatchGame() {
       const bottomPad = 20;
       const areaW = W - 20;
       const areaH = H - topBar - bottomPad;
-      const cols = 4;
+      const cols = 3;
       const rows = 4;
       const gap = Math.min(10, areaW * 0.02);
       const cardW = Math.min(120, (areaW - gap * (cols + 1)) / cols);
@@ -242,9 +242,9 @@ export default function MatchGame() {
 
       // Background gradient
       const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-      bgGrad.addColorStop(0, '#FFF5F9');
-      bgGrad.addColorStop(0.5, '#F0F4FF');
-      bgGrad.addColorStop(1, '#FFF0F5');
+      bgGrad.addColorStop(0, '#FFE8F5');
+      bgGrad.addColorStop(0.5, '#EDE8FF');
+      bgGrad.addColorStop(1, '#FFE8F0');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, W, H);
 
@@ -256,9 +256,9 @@ export default function MatchGame() {
       s.sparklePhase += 0.03;
 
       // ── Top Bar ─────────────────────────────────────────────────────────
-      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fillStyle = 'rgba(255,240,250,0.92)';
       ctx.fillRect(0, 0, W, 80);
-      ctx.strokeStyle = '#F0C0D0';
+      ctx.strokeStyle = '#E8A0CC';
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(0, 80);
@@ -282,7 +282,7 @@ export default function MatchGame() {
       ctx.font = 'bold 20px sans-serif';
       ctx.fillStyle = '#9B59B6';
       ctx.textAlign = 'center';
-      ctx.fillText('💜 짝맞추기 💜', W / 2, 30);
+      ctx.fillText('🐾 짝맞추기 🐾', W / 2, 30);
 
       // Stats
       ctx.font = '14px sans-serif';
@@ -291,7 +291,7 @@ export default function MatchGame() {
       const secs = s.elapsed % 60;
       const timeStr = `⏱ ${mins}:${secs.toString().padStart(2, '0')}`;
       const moveStr = `👆 ${s.moves}번`;
-      const pairStr = `💕 ${s.matchedPairs}/8`;
+      const pairStr = `🐾 ${s.matchedPairs}/6`;
       ctx.textAlign = 'left';
       ctx.fillText(timeStr, 65, 55);
       ctx.textAlign = 'center';
@@ -304,15 +304,16 @@ export default function MatchGame() {
       const progH = 6;
       const progX = 15;
       const progY = 70;
-      ctx.fillStyle = '#F0E0F0';
+      ctx.fillStyle = '#F5D0E8';
       ctx.beginPath();
       ctx.roundRect(progX, progY, progW, progH, 3);
       ctx.fill();
-      const fillW = (s.matchedPairs / 8) * progW;
+      const fillW = (s.matchedPairs / 6) * progW;
       if (fillW > 0) {
         const progGrad = ctx.createLinearGradient(progX, 0, progX + fillW, 0);
-        progGrad.addColorStop(0, '#FF6B9D');
-        progGrad.addColorStop(1, '#C44EFF');
+        progGrad.addColorStop(0, '#FFB3D9');
+        progGrad.addColorStop(0.5, '#E88BD4');
+        progGrad.addColorStop(1, '#C78FFF');
         ctx.fillStyle = progGrad;
         ctx.beginPath();
         ctx.roundRect(progX, progY, fillW, progH, 3);
@@ -346,7 +347,7 @@ export default function MatchGame() {
         ctx.shadowBlur = 8;
         ctx.shadowOffsetY = 3;
 
-        const r = Math.min(12, card.w * 0.1);
+        const r = Math.min(18, card.w * 0.15);
 
         if (showFace) {
           // Face side
@@ -385,30 +386,31 @@ export default function MatchGame() {
           ctx.fill();
 
           ctx.shadowColor = 'transparent';
-          ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-          ctx.lineWidth = 2;
+          ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+          ctx.lineWidth = 2.5;
           ctx.stroke();
 
-          // Sparkle pattern
-          const sparkleSize = Math.min(card.w, card.h) * 0.14;
-          ctx.font = `${sparkleSize}px sans-serif`;
+          // Paw print pattern
+          const pawSize = Math.min(card.w, card.h) * 0.14;
+          ctx.font = `${pawSize}px sans-serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           const positions = [
             [0.25, 0.25], [0.75, 0.25], [0.5, 0.5], [0.25, 0.75], [0.75, 0.75],
           ];
           for (const [px, py] of positions) {
-            const sparkAlpha = 0.5 + 0.3 * Math.sin(s.sparklePhase + (px + py) * 3);
-            ctx.globalAlpha = sparkAlpha;
-            ctx.fillText('✨', card.w * px, card.h * py);
+            const pawAlpha = 0.45 + 0.25 * Math.sin(s.sparklePhase + (px + py) * 3);
+            ctx.globalAlpha = pawAlpha;
+            ctx.fillText('🐾', card.w * px, card.h * py);
           }
           ctx.globalAlpha = 1;
 
-          // Center question mark
-          const qSize = Math.min(card.w, card.h) * 0.3;
-          ctx.font = `bold ${qSize}px sans-serif`;
-          ctx.fillStyle = 'rgba(255,255,255,0.7)';
-          ctx.fillText('?', card.w / 2, card.h / 2);
+          // Center heart
+          const heartSize = Math.min(card.w, card.h) * 0.28;
+          ctx.font = `${heartSize}px sans-serif`;
+          ctx.globalAlpha = 0.55 + 0.2 * Math.sin(s.sparklePhase * 2);
+          ctx.fillText('💗', card.w / 2, card.h / 2);
+          ctx.globalAlpha = 1;
         }
 
         ctx.restore();
@@ -479,38 +481,38 @@ export default function MatchGame() {
         ctx.stroke();
 
         // Character emoji
-        ctx.font = '56px sans-serif';
+        ctx.font = '70px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(ch.emoji, W / 2, boxY + 60);
+        ctx.fillText(ch.emoji, W / 2, boxY + 65);
 
         // Congratulations
         ctx.font = 'bold 24px sans-serif';
         ctx.fillStyle = ch.color;
-        ctx.fillText('축하해요! 🎉', W / 2, boxY + 105);
+        ctx.fillText('축하해요! 🎊🐾🎊', W / 2, boxY + 112);
 
         ctx.font = '16px sans-serif';
         ctx.fillStyle = '#666';
-        ctx.fillText(`${ch.name}(이)가 응원해요!`, W / 2, boxY + 130);
+        ctx.fillText(`${ch.name}(이)가 응원해요!`, W / 2, boxY + 138);
 
         // Stats
-        const score = Math.max(0, 10000 - s.moves * 100 - s.elapsed * 10);
+        const score = Math.max(0, 10000 - s.moves * 80 - s.elapsed * 5);
         ctx.font = 'bold 18px sans-serif';
         ctx.fillStyle = '#333';
-        ctx.fillText(`점수: ${score}점`, W / 2, boxY + 170);
+        ctx.fillText(`점수: ${score}점`, W / 2, boxY + 175);
 
         ctx.font = '15px sans-serif';
         ctx.fillStyle = '#888';
         const fMins = Math.floor(s.elapsed / 60);
         const fSecs = s.elapsed % 60;
-        ctx.fillText(`시간: ${fMins}분 ${fSecs}초  |  시도: ${s.moves}번`, W / 2, boxY + 198);
+        ctx.fillText(`시간: ${fMins}분 ${fSecs}초  |  시도: ${s.moves}번`, W / 2, boxY + 202);
 
         // Rating stars
         let stars = 1;
-        if (s.moves <= 14) stars = 3;
-        else if (s.moves <= 20) stars = 2;
+        if (s.moves <= 12) stars = 3;
+        else if (s.moves <= 18) stars = 2;
         const starStr = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
-        ctx.font = '32px sans-serif';
-        ctx.fillText(starStr, W / 2, boxY + 238);
+        ctx.font = '34px sans-serif';
+        ctx.fillText(starStr, W / 2, boxY + 244);
 
         // Restart button
         const btnW = 160;
@@ -589,15 +591,15 @@ export default function MatchGame() {
                 sound?.match();
 
                 // Show encouragement
-                if (s.matchedPairs < 8) {
-                  if (s.matchedPairs % 2 === 0 || s.matchedPairs >= 6) {
+                if (s.matchedPairs < 6) {
+                  if (s.matchedPairs % 2 === 0 || s.matchedPairs >= 4) {
                     s.encourageMsg = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
                     s.encourageTimer = 90;
                   }
                 }
 
                 // Check win
-                if (s.matchedPairs === 8) {
+                if (s.matchedPairs === 6) {
                   s.gameOver = true;
                   sound?.win();
                   spawnConfetti();
@@ -613,7 +615,7 @@ export default function MatchGame() {
                 c2.flipped = false;
                 s.flippedIds = [];
                 s.locked = false;
-              }, 900);
+              }, 1200);
             }
           }
           break;

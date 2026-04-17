@@ -41,15 +41,15 @@ interface Star {
 // ─── Constants ───────────────────────────────────────────────────
 const CHARACTERS: Character[] = [
   { name: '수현', color: '#9B59B6', emoji: '😎', heart: '💜' },
-  { name: '이현', color: '#3498DB', emoji: '🤓', heart: '💙' },
+  { name: '이현', color: '#FF69B4', emoji: '👸', heart: '💗' },
   { name: '은영', color: '#E91E8C', emoji: '🥰', heart: '💗' },
   { name: '민구', color: '#2ECC71', emoji: '😜', heart: '💚' },
 ];
 
-const GRAVITY = 0.4;
-const JUMP_FORCE = -12;
-const MOVE_SPEED = 6;
-const PLATFORM_COUNT = 8;
+const GRAVITY = 0.28;
+const JUMP_FORCE = -14;
+const MOVE_SPEED = 7;
+const PLATFORM_COUNT = 10;
 const PLAYER_SIZE = 36;
 
 const MILESTONES = [
@@ -208,13 +208,13 @@ export default function JumpJumpGame() {
     function makePlatform(y: number): Platform {
       const r = Math.random();
       let type: Platform['type'] = 'normal';
-      if (score > 1000 && r < 0.15) type = 'breaking';
-      else if (score > 500 && r < 0.3) type = 'moving';
+      if (score > 2000 && r < 0.10) type = 'breaking';
+      else if (score > 1000 && r < 0.20) type = 'moving';
 
       return {
         x: Math.random() * (W - 80) + 10,
         y,
-        w: type === 'breaking' ? 60 : 70,
+        w: type === 'breaking' ? 80 : 90,
         type,
         moveDir: type === 'moving' ? (Math.random() < 0.5 ? 1 : -1) : 0,
         broken: false,
@@ -226,8 +226,8 @@ export default function JumpJumpGame() {
       const p = makePlatform(H - 60 - i * (H / PLATFORM_COUNT));
       if (i === 0) {
         p.type = 'normal';
-        p.x = W / 2 - 35;
-        p.w = 70;
+        p.x = W / 2 - 45;
+        p.w = 90;
       }
       platforms.push(p);
     }
@@ -382,7 +382,7 @@ export default function JumpJumpGame() {
         for (const p of platforms) {
           if (p.y < topY) topY = p.y;
         }
-        const gap = Math.min(H / PLATFORM_COUNT, Math.max(60, 120 - score / 200));
+        const gap = Math.min(H / PLATFORM_COUNT, Math.max(80, 130 - score / 400));
         platforms.push(makePlatform(topY - gap - Math.random() * 30));
       }
 
@@ -406,23 +406,28 @@ export default function JumpJumpGame() {
     }
 
     function draw() {
-      // Background gradient - changes color with height
-      const hue = (score / 50) % 360;
+      // Background gradient - pastel sky that shifts with height
+      const hue = (score / 80) % 60;
       const grad = ctx.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0, `hsl(${(240 + hue) % 360}, 30%, 15%)`);
-      grad.addColorStop(1, `hsl(${(260 + hue) % 360}, 40%, 25%)`);
+      grad.addColorStop(0, `hsl(${200 + hue}, 70%, 85%)`);
+      grad.addColorStop(0.5, `hsl(${300 + hue}, 60%, 90%)`);
+      grad.addColorStop(1, `hsl(${180 + hue}, 65%, 88%)`);
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
 
-      // Stars
+      // Floating hearts/sparkles
+      const heartEmojis = ['♡', '✦', '✧', '⋆', '♡'];
       for (const s of stars) {
         const sy = ((s.y - cameraY * s.speed) % (H * 2) + H * 2) % (H * 2) - H * 0.5;
-        const alpha = 0.3 + Math.sin(frameCount * 0.03 + s.twinkle) * 0.3;
-        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-        ctx.beginPath();
-        ctx.arc(s.x, sy, s.size, 0, Math.PI * 2);
-        ctx.fill();
+        const alpha = 0.2 + Math.sin(frameCount * 0.03 + s.twinkle) * 0.2;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = `hsl(${(s.twinkle * 60) % 360}, 70%, 70%)`;
+        ctx.font = `${s.size * 5 + 6}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(heartEmojis[Math.floor(s.twinkle) % heartEmojis.length], s.x, sy);
       }
+      ctx.globalAlpha = 1;
 
       // Draw platforms
       for (const p of platforms) {
@@ -431,35 +436,40 @@ export default function JumpJumpGame() {
 
         ctx.save();
         if (p.type === 'normal') {
-          ctx.fillStyle = '#7BED9F';
-          ctx.shadowColor = '#2ECC71';
-          ctx.shadowBlur = 8;
+          ctx.fillStyle = '#A8E6CF';
+          ctx.shadowColor = '#7DD9B5';
+          ctx.shadowBlur = 6;
           roundRect(ctx, p.x, sy, p.w, 12, 6);
           ctx.fill();
-          // grass details
+          // little flower details
           ctx.shadowBlur = 0;
-          ctx.fillStyle = '#55D67B';
-          for (let i = 0; i < 3; i++) {
-            const gx = p.x + 10 + i * 20;
-            ctx.fillRect(gx, sy - 3, 3, 5);
+          ctx.font = '8px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const flowerCount = Math.floor(p.w / 25);
+          for (let i = 0; i < flowerCount; i++) {
+            const gx = p.x + 12 + i * 25;
+            ctx.fillText('✿', gx, sy + 6);
           }
         } else if (p.type === 'moving') {
-          ctx.fillStyle = '#74B9FF';
-          ctx.shadowColor = '#3498DB';
-          ctx.shadowBlur = 8;
+          ctx.fillStyle = '#B5C7FF';
+          ctx.shadowColor = '#8FA8FF';
+          ctx.shadowBlur = 6;
           roundRect(ctx, p.x, sy, p.w, 12, 6);
           ctx.fill();
-          // arrows
+          // cute arrows
           ctx.shadowBlur = 0;
-          ctx.fillStyle = '#FFF';
+          ctx.fillStyle = '#6B8AFF';
           ctx.font = '10px sans-serif';
-          ctx.fillText('⇄', p.x + p.w / 2 - 5, sy + 10);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('✦', p.x + p.w / 2, sy + 6);
         } else if (p.type === 'breaking') {
           if (p.broken) {
             // Breaking animation
             const dt = frameCount - (p.crackTime || 0);
             ctx.globalAlpha = Math.max(0, 1 - dt / 15);
-            ctx.fillStyle = '#E74C3C';
+            ctx.fillStyle = '#FFB3B3';
             const half = p.w / 2;
             roundRect(ctx, p.x - dt * 2, sy + dt * 3, half - 2, 10, 3);
             ctx.fill();
@@ -467,14 +477,14 @@ export default function JumpJumpGame() {
             ctx.fill();
             ctx.globalAlpha = 1;
           } else {
-            ctx.fillStyle = '#FF6B6B';
-            ctx.shadowColor = '#E74C3C';
-            ctx.shadowBlur = 6;
+            ctx.fillStyle = '#FFB3B3';
+            ctx.shadowColor = '#FF8E8E';
+            ctx.shadowBlur = 5;
             roundRect(ctx, p.x, sy, p.w, 12, 6);
             ctx.fill();
             // crack lines
             ctx.shadowBlur = 0;
-            ctx.strokeStyle = '#C0392B';
+            ctx.strokeStyle = '#FF7070';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(p.x + p.w * 0.3, sy + 2);
@@ -504,7 +514,7 @@ export default function JumpJumpGame() {
       // Body (circle)
       ctx.save();
       ctx.shadowColor = char.color;
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur = 8;
       ctx.fillStyle = char.color;
       ctx.beginPath();
       ctx.arc(drawX, drawY, PLAYER_SIZE / 2, 0, Math.PI * 2);
@@ -533,13 +543,18 @@ export default function JumpJumpGame() {
 
       // ─── UI ───────────────────────────────────────────────────
       // Score
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
-      roundRect(ctx, 10, 10, 140, 45, 12);
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      roundRect(ctx, 10, 10, 140, 45, 14);
       ctx.fill();
-      ctx.fillStyle = '#FFF';
+      ctx.strokeStyle = 'rgba(200,180,255,0.5)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, 10, 10, 140, 45, 14);
+      ctx.stroke();
+      ctx.fillStyle = '#8868AA';
       ctx.font = 'bold 14px sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText(`${char.heart} ${char.name}`, 20, 28);
+      ctx.fillStyle = '#6644AA';
       ctx.font = 'bold 18px sans-serif';
       ctx.fillText(`${score}점`, 20, 48);
 
@@ -559,17 +574,19 @@ export default function JumpJumpGame() {
 
       // Mobile touch indicators
       if ('ontouchstart' in window) {
-        ctx.globalAlpha = 0.08;
-        ctx.fillStyle = '#FFF';
-        // left half
-        ctx.fillRect(0, H - 80, W / 2, 80);
-        // right half
-        ctx.fillRect(W / 2, H - 80, W / 2, 80);
-        ctx.globalAlpha = 0.3;
-        ctx.font = '24px sans-serif';
+        ctx.globalAlpha = 0.12;
+        ctx.fillStyle = 'rgba(200,180,255,1)';
+        roundRect(ctx, 8, H - 75, W / 2 - 16, 65, 18);
+        ctx.fill();
+        roundRect(ctx, W / 2 + 8, H - 75, W / 2 - 16, 65, 18);
+        ctx.fill();
+        ctx.globalAlpha = 0.5;
+        ctx.font = '22px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('◀', W * 0.25, H - 35);
-        ctx.fillText('▶', W * 0.75, H - 35);
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#9966CC';
+        ctx.fillText('⬅', W * 0.25, H - 42);
+        ctx.fillText('➡', W * 0.75, H - 42);
         ctx.globalAlpha = 1;
       }
     }
@@ -634,7 +651,7 @@ export default function JumpJumpGame() {
       <div style={{
         width: '100vw',
         height: '100dvh',
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+        background: 'linear-gradient(135deg, #FFE4F3 0%, #E8DFFF 50%, #D4F1FF 100%)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -648,10 +665,10 @@ export default function JumpJumpGame() {
           position: 'absolute',
           top: 16,
           left: 16,
-          color: '#FFF',
+          color: '#8860CC',
           textDecoration: 'none',
           fontSize: '18px',
-          background: 'rgba(255,255,255,0.1)',
+          background: 'rgba(255,255,255,0.5)',
           borderRadius: '12px',
           padding: '8px 16px',
           backdropFilter: 'blur(10px)',
@@ -667,15 +684,15 @@ export default function JumpJumpGame() {
           🐰
         </div>
         <h1 style={{
-          color: '#FFF',
+          color: '#7744BB',
           fontSize: '32px',
           marginBottom: '8px',
-          textShadow: '0 0 20px rgba(255,200,100,0.5)',
+          textShadow: '0 2px 8px rgba(180,140,255,0.4)',
         }}>
           점프점프!
         </h1>
         <p style={{
-          color: 'rgba(255,255,255,0.6)',
+          color: '#AA88CC',
           fontSize: '14px',
           marginBottom: '32px',
         }}>
@@ -714,7 +731,7 @@ export default function JumpJumpGame() {
               }}
             >
               <span style={{ fontSize: '40px' }}>{c.emoji}</span>
-              <span style={{ color: '#FFF', fontSize: '16px', fontWeight: 'bold' }}>
+              <span style={{ color: '#5533AA', fontSize: '16px', fontWeight: 'bold' }}>
                 {c.heart} {c.name}
               </span>
             </button>
@@ -722,7 +739,7 @@ export default function JumpJumpGame() {
         </div>
 
         <p style={{
-          color: 'rgba(255,255,255,0.4)',
+          color: 'rgba(120,80,180,0.6)',
           fontSize: '12px',
           marginTop: '24px',
           textAlign: 'center',
@@ -754,7 +771,7 @@ export default function JumpJumpGame() {
       <div style={{
         width: '100vw',
         height: '100dvh',
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+        background: 'linear-gradient(135deg, #FFE4F3 0%, #E8DFFF 50%, #D4F1FF 100%)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -763,14 +780,15 @@ export default function JumpJumpGame() {
         gap: '16px',
       }}>
         <div style={{ fontSize: '64px' }}>{char.emoji}</div>
-        <h2 style={{ color: '#FFF', fontSize: '28px', margin: 0 }}>게임 오버!</h2>
+        <h2 style={{ color: '#7744BB', fontSize: '28px', margin: 0, textShadow: '0 2px 8px rgba(180,140,255,0.3)' }}>게임 오버!</h2>
         <div style={{
-          background: 'rgba(255,255,255,0.1)',
+          background: 'rgba(255,255,255,0.6)',
           borderRadius: '20px',
           padding: '20px 40px',
           textAlign: 'center',
+          boxShadow: '0 4px 20px rgba(180,140,255,0.2)',
         }}>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', margin: '0 0 4px' }}>
+          <p style={{ color: '#AA88CC', fontSize: '14px', margin: '0 0 4px' }}>
             점수
           </p>
           <p style={{
@@ -778,16 +796,16 @@ export default function JumpJumpGame() {
             fontSize: '48px',
             fontWeight: 'bold',
             margin: 0,
-            textShadow: `0 0 20px ${char.color}88`,
+            textShadow: `0 2px 12px ${char.color}66`,
           }}>
             {finalScore}
           </p>
         </div>
         <p style={{
-          color: '#FFD700',
+          color: '#CC88AA',
           fontSize: '20px',
           fontWeight: 'bold',
-          textShadow: '0 0 10px rgba(255,215,0,0.5)',
+          textShadow: '0 1px 6px rgba(220,150,180,0.4)',
         }}>
           {encouragement}
         </p>
@@ -804,7 +822,7 @@ export default function JumpJumpGame() {
               fontSize: '18px',
               fontWeight: 'bold',
               cursor: 'pointer',
-              boxShadow: `0 4px 15px ${char.color}66`,
+              boxShadow: `0 4px 15px ${char.color}55`,
             }}
           >
             다시하기! 🔄
@@ -812,9 +830,9 @@ export default function JumpJumpGame() {
           <button
             onClick={restart}
             style={{
-              background: 'rgba(255,255,255,0.15)',
-              color: '#FFF',
-              border: '1px solid rgba(255,255,255,0.3)',
+              background: 'rgba(255,255,255,0.6)',
+              color: '#8860CC',
+              border: '1.5px solid rgba(180,140,255,0.4)',
               borderRadius: '16px',
               padding: '14px 24px',
               fontSize: '16px',
@@ -826,7 +844,7 @@ export default function JumpJumpGame() {
         </div>
 
         <a href="/" style={{
-          color: 'rgba(255,255,255,0.5)',
+          color: 'rgba(120,80,180,0.55)',
           textDecoration: 'none',
           fontSize: '14px',
           marginTop: '16px',

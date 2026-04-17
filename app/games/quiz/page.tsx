@@ -41,7 +41,7 @@ type GamePhase = 'select' | 'playing' | 'result';
 // ─── Data ────────────────────────────────────────────────────────────
 const CHARACTERS: Character[] = [
   { name: '수현', emoji: '😎', color: '#9B59B6', heart: '💜' },
-  { name: '이현', emoji: '🤓', color: '#3498DB', heart: '💙' },
+  { name: '이현', emoji: '👸', color: '#FF69B4', heart: '💗' },
   { name: '은영', emoji: '🥰', color: '#E91E8C', heart: '💗' },
   { name: '민구', emoji: '😜', color: '#2ECC71', heart: '💚' },
 ];
@@ -84,8 +84,8 @@ const STREAK_MESSAGES: Record<number, string> = {
 const CORRECT_MESSAGES = ['정답! 🎉', '맞아요! 👏', '천재! 🌟', '대박! ✨', '완벽해! 💯'];
 const WRONG_MESSAGES = ['아쉽다~ 😢', '다음엔 맞히자! 💪', '괜찮아! 😊', '힘내! 🍀'];
 
-const TIMER_SECONDS = 10;
-const TOTAL_QUESTIONS = 20;
+const TIMER_SECONDS = 20;
+const TOTAL_QUESTIONS = 10;
 
 // ─── Audio ───────────────────────────────────────────────────────────
 function createAudioContext(): AudioContext | null {
@@ -228,13 +228,14 @@ export default function QuizBattlePage() {
       setTimeLeft(prev => {
         if (prev <= 1) {
           if (timerRef.current) clearInterval(timerRef.current);
-          // Time's up - wrong answer
+          // Time's up - give half points as consolation
           setAnswered(true);
-          setLastCorrect(false);
+          setLastCorrect(null);
           setShowExplanation(true);
           setStreak(0);
-          setFeedbackText('시간 초과! ⏰');
-          shakeRef.current = 10;
+          setScore(s => s + 50);
+          setFeedbackText('시간 초과! 반반 점수! ⏰');
+          shakeRef.current = 6;
           return 0;
         }
         if (prev <= 4) {
@@ -331,11 +332,11 @@ export default function QuizBattlePage() {
   const getGrade = useCallback(() => {
     const maxScore = questions.length * 300; // theoretical max with all streak bonuses
     const pct = score / Math.max(maxScore, 1);
-    if (pct >= 0.85) return { grade: 'S', label: '천재! 퀴즈왕!', color: '#FFD700' };
-    if (pct >= 0.65) return { grade: 'A', label: '대단해요!', color: '#FF6B6B' };
-    if (pct >= 0.45) return { grade: 'B', label: '잘했어요!', color: '#4ECDC4' };
-    if (pct >= 0.25) return { grade: 'C', label: '좋은 시도!', color: '#A78BFA' };
-    return { grade: 'D', label: '다음엔 더 잘하자!', color: '#94A3B8' };
+    if (pct >= 0.7) return { grade: 'S', label: '완전 천재! 퀴즈왕! 👑', color: '#FFD700' };
+    if (pct >= 0.5) return { grade: 'A', label: '정말 잘했어요! 🌟', color: '#FF6B6B' };
+    if (pct >= 0.3) return { grade: 'B', label: '잘했어요! 짱이에요! ✨', color: '#4ECDC4' };
+    if (pct >= 0.15) return { grade: 'C', label: '좋은 시도! 파이팅! 💪', color: '#A78BFA' };
+    return { grade: 'D', label: '다음엔 더 잘할 수 있어! 🍀', color: '#94A3B8' };
   }, [questions.length, score]);
 
   // ─── Canvas click handling ─────────────────────────────────────────
@@ -406,7 +407,7 @@ export default function QuizBattlePage() {
         if (!answered) {
           // O button (left)
           const btnY = H * 0.75;
-          const btnR = Math.min(W * 0.15, 80);
+          const btnR = Math.min(W * 0.2, 100);
           const oX = W * 0.3;
           const xX = W * 0.7;
 
@@ -511,10 +512,21 @@ export default function QuizBattlePage() {
 
     const drawBackButton = () => {
       ctx2d.save();
-      ctx2d.font = 'bold 18px sans-serif';
-      ctx2d.fillStyle = '#64748B';
+      // Pill background
+      ctx2d.shadowColor = '#F9A8D440';
+      ctx2d.shadowBlur = 8;
+      ctx2d.fillStyle = '#FDE8F5';
+      drawRoundRect(8, 12, 76, 32, 16);
+      ctx2d.fill();
+      ctx2d.shadowColor = 'transparent';
+      ctx2d.strokeStyle = '#F9A8D4';
+      ctx2d.lineWidth = 1.5;
+      drawRoundRect(8, 12, 76, 32, 16);
+      ctx2d.stroke();
+      ctx2d.font = 'bold 16px sans-serif';
+      ctx2d.fillStyle = '#E91E8C';
       ctx2d.textAlign = 'left';
-      ctx2d.fillText('← 홈', 16, 38);
+      ctx2d.fillText('🏠 홈', 18, 33);
       ctx2d.restore();
     };
 
@@ -530,9 +542,10 @@ export default function QuizBattlePage() {
     // ─── Select screen ───
     const drawSelectScreen = () => {
       // Background gradient
-      const grad = ctx2d.createLinearGradient(0, 0, 0, H());
-      grad.addColorStop(0, '#FFF5E1');
-      grad.addColorStop(1, '#FFE0F0');
+      const grad = ctx2d.createLinearGradient(0, 0, W(), H());
+      grad.addColorStop(0, '#FFE8F5');
+      grad.addColorStop(0.5, '#E8F0FF');
+      grad.addColorStop(1, '#FFF0E8');
       ctx2d.fillStyle = grad;
       ctx2d.fillRect(0, 0, W(), H());
 
@@ -571,14 +584,16 @@ export default function QuizBattlePage() {
         ctx2d.shadowBlur = isHover ? 20 : 10;
         ctx2d.shadowOffsetY = 4;
 
-        // Card bg
-        ctx2d.fillStyle = '#FFFFFF';
-        drawRoundRect(cx - w / 2, cy - h / 2, w, h, 16);
+        // Card bg - pastel tint based on character color
+        const pastelBgs = ['#F8F0FF', '#EEF5FF', '#FFF0F8', '#EDFFF5'];
+        ctx2d.fillStyle = isHover ? '#FFFFFF' : pastelBgs[i] || '#FAFAFA';
+        drawRoundRect(cx - w / 2, cy - h / 2, w, h, 20);
         ctx2d.fill();
 
         // Border
-        ctx2d.strokeStyle = char.color;
-        ctx2d.lineWidth = isHover ? 3 : 2;
+        ctx2d.strokeStyle = char.color + (isHover ? 'FF' : 'AA');
+        ctx2d.lineWidth = isHover ? 3 : 1.5;
+        drawRoundRect(cx - w / 2, cy - h / 2, w, h, 20);
         ctx2d.stroke();
         ctx2d.restore();
 
@@ -611,10 +626,11 @@ export default function QuizBattlePage() {
       ctx2d.save();
       ctx2d.translate(shakeX, 0);
 
-      // Background
-      const grad = ctx2d.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, '#F0F4FF');
-      grad.addColorStop(1, '#E8F5E9');
+      // Background - soft pastel
+      const grad = ctx2d.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#FDF0FF');
+      grad.addColorStop(0.5, '#F0F4FF');
+      grad.addColorStop(1, '#F0FFF4');
       ctx2d.fillStyle = grad;
       ctx2d.fillRect(-10, 0, w + 20, h);
 
@@ -652,13 +668,13 @@ export default function QuizBattlePage() {
       ctx2d.fill();
 
       const timerFill = (timeLeft / TIMER_SECONDS) * timerW;
-      ctx2d.fillStyle = timeLeft <= 3 ? '#EF4444' : timeLeft <= 5 ? '#F59E0B' : '#22C55E';
+      ctx2d.fillStyle = timeLeft <= 5 ? '#FB7185' : timeLeft <= 10 ? '#FBBF24' : '#4ADE80';
       drawRoundRect(30, timerY, Math.max(timerFill, 0), timerH, 4);
       ctx2d.fill();
 
       // Timer text
       ctx2d.font = `bold ${Math.min(w * 0.04, 18)}px sans-serif`;
-      ctx2d.fillStyle = timeLeft <= 3 ? '#EF4444' : '#64748B';
+      ctx2d.fillStyle = timeLeft <= 5 ? '#FB7185' : '#64748B';
       ctx2d.fillText(`${timeLeft}초`, w / 2, timerY + 28);
 
       // Character
@@ -675,17 +691,17 @@ export default function QuizBattlePage() {
       const qBoxW = w - 40;
 
       ctx2d.save();
-      ctx2d.shadowColor = '#00000020';
-      ctx2d.shadowBlur = 15;
-      ctx2d.shadowOffsetY = 5;
-      ctx2d.fillStyle = '#FFFFFF';
-      drawRoundRect(20, qBoxY, qBoxW, qBoxH, 16);
+      ctx2d.shadowColor = char.color + '30';
+      ctx2d.shadowBlur = 20;
+      ctx2d.shadowOffsetY = 6;
+      ctx2d.fillStyle = '#FFFBFF';
+      drawRoundRect(20, qBoxY, qBoxW, qBoxH, 22);
       ctx2d.fill();
       ctx2d.restore();
 
-      ctx2d.strokeStyle = char.color + '60';
-      ctx2d.lineWidth = 2;
-      drawRoundRect(20, qBoxY, qBoxW, qBoxH, 16);
+      ctx2d.strokeStyle = char.color + '70';
+      ctx2d.lineWidth = 2.5;
+      drawRoundRect(20, qBoxY, qBoxW, qBoxH, 22);
       ctx2d.stroke();
 
       // Question text (wrap if needed)
@@ -722,23 +738,23 @@ export default function QuizBattlePage() {
       // O and X buttons
       if (!answered) {
         const btnY = h * 0.75;
-        const btnR = Math.min(w * 0.15, 80);
+        const btnR = Math.min(w * 0.2, 100);
 
         // O button
         const oX = w * 0.3;
         ctx2d.save();
-        ctx2d.shadowColor = '#22C55E40';
-        ctx2d.shadowBlur = 15;
+        ctx2d.shadowColor = '#4ADE8060';
+        ctx2d.shadowBlur = 20;
         ctx2d.beginPath();
         ctx2d.arc(oX, btnY, btnR, 0, Math.PI * 2);
-        ctx2d.fillStyle = '#22C55E';
+        ctx2d.fillStyle = '#4ADE80';
         ctx2d.fill();
         ctx2d.restore();
 
         ctx2d.beginPath();
         ctx2d.arc(oX, btnY, btnR - 4, 0, Math.PI * 2);
-        ctx2d.strokeStyle = '#FFFFFF40';
-        ctx2d.lineWidth = 3;
+        ctx2d.strokeStyle = '#FFFFFF50';
+        ctx2d.lineWidth = 4;
         ctx2d.stroke();
 
         ctx2d.font = `bold ${btnR * 0.8}px sans-serif`;
@@ -750,18 +766,18 @@ export default function QuizBattlePage() {
         // X button
         const xX = w * 0.7;
         ctx2d.save();
-        ctx2d.shadowColor = '#EF444440';
-        ctx2d.shadowBlur = 15;
+        ctx2d.shadowColor = '#FB718560';
+        ctx2d.shadowBlur = 20;
         ctx2d.beginPath();
         ctx2d.arc(xX, btnY, btnR, 0, Math.PI * 2);
-        ctx2d.fillStyle = '#EF4444';
+        ctx2d.fillStyle = '#FB7185';
         ctx2d.fill();
         ctx2d.restore();
 
         ctx2d.beginPath();
         ctx2d.arc(xX, btnY, btnR - 4, 0, Math.PI * 2);
-        ctx2d.strokeStyle = '#FFFFFF40';
-        ctx2d.lineWidth = 3;
+        ctx2d.strokeStyle = '#FFFFFF50';
+        ctx2d.lineWidth = 4;
         ctx2d.stroke();
 
         ctx2d.font = `bold ${btnR * 0.8}px sans-serif`;
@@ -773,33 +789,39 @@ export default function QuizBattlePage() {
 
       // Feedback & explanation overlay
       if (answered && showExplanation) {
-        // Dim overlay
-        ctx2d.fillStyle = 'rgba(0,0,0,0.3)';
+        // Dim overlay - softer
+        ctx2d.fillStyle = 'rgba(80,20,80,0.18)';
         ctx2d.fillRect(-10, h * 0.55, w + 20, h * 0.45);
 
         // Feedback box
         const fbY = h * 0.58;
         const fbH = h * 0.35;
-        ctx2d.fillStyle = lastCorrect ? '#F0FFF4' : '#FFF5F5';
-        drawRoundRect(20, fbY, w - 40, fbH, 16);
+        const isTimeout = lastCorrect === null;
+        ctx2d.save();
+        ctx2d.shadowColor = lastCorrect ? '#4ADE8040' : isTimeout ? '#FBBF2440' : '#FB718540';
+        ctx2d.shadowBlur = 18;
+        ctx2d.fillStyle = lastCorrect ? '#F0FFF8' : isTimeout ? '#FFFBEB' : '#FFF0F5';
+        drawRoundRect(20, fbY, w - 40, fbH, 22);
         ctx2d.fill();
-        ctx2d.strokeStyle = lastCorrect ? '#22C55E' : '#EF4444';
-        ctx2d.lineWidth = 3;
+        ctx2d.restore();
+        ctx2d.strokeStyle = lastCorrect ? '#4ADE80' : isTimeout ? '#FBBF24' : '#FB7185';
+        ctx2d.lineWidth = 2.5;
+        drawRoundRect(20, fbY, w - 40, fbH, 22);
         ctx2d.stroke();
 
         // Big O or X
         ctx2d.font = `bold ${Math.min(w * 0.15, 60)}px sans-serif`;
         ctx2d.textAlign = 'center';
-        ctx2d.fillStyle = lastCorrect ? '#22C55E' : '#EF4444';
+        ctx2d.fillStyle = lastCorrect ? '#4ADE80' : isTimeout ? '#FBBF24' : '#FB7185';
         ctx2d.fillText(
-          q.answer ? 'O 정답!' : 'X 정답!',
+          isTimeout ? '⏰ 시간 초과!' : q.answer ? 'O 정답!' : 'X 정답!',
           w / 2,
           fbY + fbH * 0.2,
         );
 
         // Feedback text
         ctx2d.font = `bold ${Math.min(w * 0.05, 22)}px sans-serif`;
-        ctx2d.fillStyle = lastCorrect ? '#22C55E' : '#EF4444';
+        ctx2d.fillStyle = lastCorrect ? '#4ADE80' : isTimeout ? '#F59E0B' : '#FB7185';
         ctx2d.fillText(feedbackText, w / 2, fbY + fbH * 0.4);
 
         // Explanation
@@ -828,11 +850,12 @@ export default function QuizBattlePage() {
       const char = CHARACTERS[selectedChar];
       const gradeInfo = getGrade();
 
-      // Background
+      // Background - cute pastel gradient
       const grad = ctx2d.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#FFF5E1');
-      grad.addColorStop(0.5, '#FFE0F0');
-      grad.addColorStop(1, '#E8F0FF');
+      grad.addColorStop(0, '#FFE8F5');
+      grad.addColorStop(0.4, '#EEE8FF');
+      grad.addColorStop(0.7, '#E8F4FF');
+      grad.addColorStop(1, '#E8FFF4');
       ctx2d.fillStyle = grad;
       ctx2d.fillRect(0, 0, w, h);
 
@@ -842,8 +865,8 @@ export default function QuizBattlePage() {
       ctx2d.fillStyle = '#E91E8C';
       ctx2d.fillText('퀴즈 결과! 🏆', w / 2, h * 0.08);
 
-      // Character
-      drawCharacter(char.emoji, w / 2, h * 0.17, Math.min(w * 0.15, 64), charBounceRef.current);
+      // Character - bigger on result screen
+      drawCharacter(char.emoji, w / 2, h * 0.17, Math.min(w * 0.22, 88), charBounceRef.current);
 
       // Grade circle
       const gradeY = h * 0.32;

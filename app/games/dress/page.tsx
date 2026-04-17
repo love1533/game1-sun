@@ -40,7 +40,7 @@ interface FloatingParticle {
 
 const CHARACTERS: Character[] = [
   { name: '수현', emoji: '😎', color: '#9B59B6', heart: '💜' },
-  { name: '이현', emoji: '🤓', color: '#3498DB', heart: '💙' },
+  { name: '이현', emoji: '👸', color: '#FF69B4', heart: '💗' },
   { name: '은영', emoji: '🥰', color: '#E91E8C', heart: '💗' },
   { name: '민구', emoji: '😜', color: '#2ECC71', heart: '💚' },
 ];
@@ -55,6 +55,8 @@ const CATEGORIES: Category[] = [
       { emoji: '🧢', name: '캡', id: 'hat-cap' },
       { emoji: '🎀', name: '리본', id: 'hat-ribbon' },
       { emoji: '🌸', name: '꽃', id: 'hat-flower' },
+      { emoji: '🌺', name: '히비스커스', id: 'hat-hibiscus' },
+      { emoji: '🦋', name: '나비', id: 'hat-butterfly' },
     ],
   },
   {
@@ -85,13 +87,15 @@ const CATEGORIES: Category[] = [
       { emoji: '💕', name: '하트', id: 'fx-heart' },
       { emoji: '⭐', name: '별', id: 'fx-star' },
       { emoji: '🎵', name: '음표', id: 'fx-music' },
+      { emoji: '🌈', name: '무지개', id: 'fx-rainbow' },
+      { emoji: '🦋', name: '나비', id: 'fx-butterfly' },
     ],
   },
 ];
 
 const EXCITED_EMOJIS: Record<string, string> = {
   '😎': '🤩',
-  '🤓': '😆',
+  '👸': '😍',
   '🥰': '😍',
   '😜': '🥳',
 };
@@ -585,6 +589,13 @@ export default function DressUpGame() {
   const currentItems = CATEGORIES[activeTab].items;
 
   return (
+    <>
+    <style>{`
+      @keyframes bounce {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-4px); }
+      }
+    `}</style>
     <div
       style={{
         display: 'flex',
@@ -604,7 +615,7 @@ export default function DressUpGame() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '8px 12px',
-          background: 'linear-gradient(135deg, #FF69B4, #FF1493)',
+          background: 'linear-gradient(135deg, #FFB6D9, #FF8EC4)',
           color: '#fff',
           flexShrink: 0,
         }}
@@ -651,7 +662,7 @@ export default function DressUpGame() {
               flexDirection: 'column',
               alignItems: 'center',
               padding: '6px 12px',
-              borderRadius: '12px',
+              borderRadius: '20px',
               border: i === selectedChar ? `3px solid ${c.color}` : '3px solid transparent',
               background: i === selectedChar ? `${c.color}22` : 'transparent',
               cursor: 'pointer',
@@ -659,9 +670,14 @@ export default function DressUpGame() {
               fontSize: '14px',
               fontWeight: i === selectedChar ? 'bold' : 'normal',
               color: c.color,
+              boxShadow: i === selectedChar ? `0 4px 12px ${c.color}44` : 'none',
+              transform: i === selectedChar ? 'translateY(-2px)' : 'translateY(0)',
             }}
           >
-            <span style={{ fontSize: '24px' }}>{c.emoji}</span>
+            <span style={{ fontSize: '24px', display: 'block', animation: i === selectedChar ? 'bounce 0.6s infinite alternate' : 'none' }}>{c.emoji}</span>
+            {i === selectedChar && (
+              <span style={{ fontSize: '8px', marginBottom: '1px', animation: 'bounce 0.6s infinite alternate' }}>▲</span>
+            )}
             <span>
               {c.heart}
               {c.name}
@@ -706,14 +722,14 @@ export default function DressUpGame() {
           onClick={saveImage}
           style={{
             padding: '8px 20px',
-            borderRadius: '20px',
+            borderRadius: '24px',
             border: 'none',
-            background: 'linear-gradient(135deg, #FF69B4, #FF1493)',
+            background: 'linear-gradient(135deg, #FFB6D9, #FF8FAB)',
             color: '#fff',
             fontSize: '14px',
             fontWeight: 'bold',
             cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(255,20,147,0.3)',
+            boxShadow: '0 2px 10px rgba(255,143,171,0.4)',
           }}
         >
           📸 저장하기
@@ -722,10 +738,10 @@ export default function DressUpGame() {
           onClick={clearAll}
           style={{
             padding: '8px 20px',
-            borderRadius: '20px',
-            border: '2px solid #FF69B4',
+            borderRadius: '24px',
+            border: '2px solid #FFB6D9',
             background: '#fff',
-            color: '#FF1493',
+            color: '#FF8FAB',
             fontSize: '14px',
             fontWeight: 'bold',
             cursor: 'pointer',
@@ -752,15 +768,16 @@ export default function DressUpGame() {
             onClick={() => setActiveTab(i)}
             style={{
               padding: '6px 16px',
-              borderRadius: '16px 16px 0 0',
+              borderRadius: '20px',
               border: 'none',
-              background: i === activeTab ? '#fff' : 'rgba(255,255,255,0.5)',
+              background: i === activeTab ? 'linear-gradient(135deg, #FFD6EC, #FFADD6)' : 'rgba(255,214,236,0.35)',
               fontSize: '14px',
               fontWeight: i === activeTab ? 'bold' : 'normal',
               cursor: 'pointer',
               whiteSpace: 'nowrap',
-              color: i === activeTab ? '#FF1493' : '#888',
-              borderBottom: i === activeTab ? '3px solid #FF1493' : '3px solid transparent',
+              color: i === activeTab ? '#E05FA0' : '#C48AAE',
+              boxShadow: i === activeTab ? '0 2px 8px rgba(255,142,196,0.35)' : 'none',
+              transform: i === activeTab ? 'translateY(-1px)' : 'translateY(0)',
               transition: 'all 0.2s',
             }}
           >
@@ -776,8 +793,8 @@ export default function DressUpGame() {
           overflowX: 'auto',
           gap: '8px',
           padding: '10px 12px 16px',
-          background: '#fff',
-          borderTop: '1px solid #f0f0f0',
+          background: 'linear-gradient(180deg, #FFF5FB, #FFF0F8)',
+          borderTop: '1px solid #FFD6EC',
           flexShrink: 0,
           WebkitOverflowScrolling: 'touch',
         }}
@@ -796,22 +813,22 @@ export default function DressUpGame() {
                 minWidth: '72px',
                 height: '72px',
                 borderRadius: '16px',
-                border: isEquipped ? '3px solid #FF1493' : '3px solid #eee',
+                border: isEquipped ? '3px solid #FF8FAB' : '3px solid #FFE0EF',
                 background: isEquipped
-                  ? 'linear-gradient(135deg, #FFE4EC, #FFF0F5)'
-                  : '#FAFAFA',
+                  ? 'linear-gradient(135deg, #FFD6EC, #FFECF4)'
+                  : 'rgba(255,255,255,0.85)',
                 cursor: 'pointer',
                 padding: '4px',
                 transition: 'all 0.2s',
-                transform: isEquipped ? 'scale(1.05)' : 'scale(1)',
-                boxShadow: isEquipped ? '0 2px 12px rgba(255,20,147,0.2)' : 'none',
+                transform: isEquipped ? 'scale(1.08) translateY(-2px)' : 'scale(1)',
+                boxShadow: isEquipped ? '0 4px 16px rgba(255,143,171,0.45), 0 0 0 1px rgba(255,143,171,0.2)' : '0 1px 4px rgba(255,182,217,0.15)',
               }}
             >
               <span style={{ fontSize: '28px' }}>{item.emoji}</span>
               <span
                 style={{
                   fontSize: '11px',
-                  color: isEquipped ? '#FF1493' : '#666',
+                  color: isEquipped ? '#E05FA0' : '#999',
                   fontWeight: isEquipped ? 'bold' : 'normal',
                   marginTop: '2px',
                 }}
@@ -823,6 +840,7 @@ export default function DressUpGame() {
         })}
       </div>
     </div>
+    </>
   );
 }
 
