@@ -34,6 +34,8 @@ const PLAYER_INFO: Record<string, { emoji: string; color: string }> = {
   강우: { emoji: "👨‍🍳", color: "bg-yellow-200 text-yellow-700" },
   수현: { emoji: "💃", color: "bg-pink-200 text-pink-700" },
   이현: { emoji: "👸", color: "bg-purple-200 text-purple-700" },
+  준영: { emoji: "📚", color: "bg-indigo-200 text-indigo-700" },
+  준우: { emoji: "✈️", color: "bg-sky-200 text-sky-700" },
 };
 
 function getPlayerEmoji(name: string): string {
@@ -303,7 +305,7 @@ export default function RankingPage() {
         {/* ── Footer decoration ── */}
         <div className="mt-10 text-center text-xs text-purple-300">
           <p className="font-semibold text-purple-400">
-            승민 🤖 · 건우 🩺 · 강우 👨‍🍳 · 수현 💃 · 이현 👸
+            승민 🤖 · 건우 🩺 · 강우 👨‍🍳 · 수현 💃 · 이현 👸 · 준영 📚 · 준우 ✈️
           </p>
           <p className="mt-1 text-[10px] text-pink-300">
             오늘도 최고 기록에 도전해봐요~! 🎵

@@ -36,6 +36,8 @@ const CHARACTERS = [
   { name: '강우', color: '#F59E0B', emoji: '👨‍🍳' },
   { name: '수현', color: '#EC4899', emoji: '💃' },
   { name: '이현', color: '#FF69B4', emoji: '👸' },
+  { name: '준영', color: '#6366F1', emoji: '📚' },
+  { name: '준우', color: '#0EA5E9', emoji: '✈️' },
 ];
 
 const CARD_EMOJIS = ['🐰', '🐱', '🐻', '🦊', '🐼', '🐶'];

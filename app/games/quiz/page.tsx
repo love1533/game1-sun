@@ -46,6 +46,8 @@ const CHARACTERS: Character[] = [
   { name: '강우', emoji: '👨‍🍳', color: '#F59E0B', heart: '🧡' },
   { name: '수현', emoji: '💃', color: '#EC4899', heart: '💗' },
   { name: '이현', emoji: '👸', color: '#FF69B4', heart: '💖' },
+  { name: '준영', emoji: '📚', color: '#6366F1', heart: '💜' },
+  { name: '준우', emoji: '✈️', color: '#0EA5E9', heart: '💎' },
 ];
 
 const QUESTIONS: Question[] = [

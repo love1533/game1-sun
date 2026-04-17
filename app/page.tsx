@@ -8,6 +8,7 @@ const games = [
     emoji: "🐰",
     color: "from-purple-200 to-pink-200",
     shadow: "shadow-purple-100",
+    preview: "🐰⬆️☁️",
   },
   {
     name: "캐릭터 달리기",
@@ -16,6 +17,7 @@ const games = [
     emoji: "🐱",
     color: "from-blue-200 to-cyan-200",
     shadow: "shadow-blue-100",
+    preview: "🐱💨🪨",
   },
   {
     name: "짝맞추기",
@@ -24,6 +26,7 @@ const games = [
     emoji: "🐻",
     color: "from-pink-200 to-rose-200",
     shadow: "shadow-pink-100",
+    preview: "🐻❓🃏",
   },
   {
     name: "퀴즈 대결",
@@ -32,6 +35,7 @@ const games = [
     emoji: "🦊",
     color: "from-amber-200 to-orange-200",
     shadow: "shadow-amber-100",
+    preview: "🦊💡❓",
   },
   {
     name: "꾸미기",
@@ -40,6 +44,7 @@ const games = [
     emoji: "🐼",
     color: "from-green-200 to-emerald-200",
     shadow: "shadow-green-100",
+    preview: "🐼👗✨",
   },
   {
     name: "낚시왕",
@@ -48,6 +53,7 @@ const games = [
     emoji: "🎣",
     color: "from-sky-200 to-blue-200",
     shadow: "shadow-sky-100",
+    preview: "🎣🐟🌊",
   },
   {
     name: "버블팝",
@@ -56,6 +62,7 @@ const games = [
     emoji: "🫧",
     color: "from-violet-200 to-purple-200",
     shadow: "shadow-violet-100",
+    preview: "🫧💥🌈",
   },
   {
     name: "요리사",
@@ -64,6 +71,7 @@ const games = [
     emoji: "🍳",
     color: "from-yellow-200 to-amber-200",
     shadow: "shadow-yellow-100",
+    preview: "🍳🥕🍽️",
   },
   {
     name: "리듬게임",
@@ -72,6 +80,7 @@ const games = [
     emoji: "🎵",
     color: "from-fuchsia-200 to-pink-200",
     shadow: "shadow-fuchsia-100",
+    preview: "🎵🥁🎶",
   },
   {
     name: "탕후루",
@@ -80,6 +89,7 @@ const games = [
     emoji: "🍡",
     color: "from-red-200 to-rose-200",
     shadow: "shadow-red-100",
+    preview: "🍡🍓🍬",
   },
   {
     name: "슈팅",
@@ -88,6 +98,7 @@ const games = [
     emoji: "🔫",
     color: "from-slate-200 to-blue-200",
     shadow: "shadow-slate-100",
+    preview: "🚀💥👾",
   },
   {
     name: "블록쌓기",
@@ -96,6 +107,7 @@ const games = [
     emoji: "🧱",
     color: "from-orange-200 to-red-200",
     shadow: "shadow-orange-100",
+    preview: "🧱🏗️⬆️",
   },
   {
     name: "구슬굴리기",
@@ -104,6 +116,7 @@ const games = [
     emoji: "🔮",
     color: "from-teal-200 to-cyan-200",
     shadow: "shadow-teal-100",
+    preview: "🔮💫🎯",
   },
 ];
 
@@ -113,6 +126,8 @@ const characters = [
   { name: "강우", emoji: "👨‍🍳", color: "bg-amber-300", desc: "요리왕 꿈나무!" },
   { name: "수현", emoji: "💃", color: "bg-pink-300", desc: "13살 멋쟁이!" },
   { name: "이현", emoji: "👸", color: "bg-rose-300", desc: "7살 공주님!" },
+  { name: "준영", emoji: "📚", color: "bg-indigo-300", desc: "고1 우등생!" },
+  { name: "준우", emoji: "✈️", color: "bg-sky-300", desc: "공사 꿈나무!" },
 ];
 
 const decorations = [
@@ -186,7 +201,7 @@ export default function Home() {
         {/* Title */}
         <div className="text-center mb-4">
           <h1 className="text-3xl font-extrabold text-purple-600 mb-1 tracking-tight">
-            <span className="title-bounce inline-block">🎮 미니게임 월드</span>
+            <span className="title-bounce inline-block">🎮 미니게임월드</span>
           </h1>
           <p className="text-sm font-semibold text-pink-400 mt-1">
             함께 놀자! 🌈
@@ -242,6 +257,9 @@ export default function Home() {
                 transform transition-all duration-200 active:scale-95 hover:scale-[1.03] hover:shadow-xl`}
             >
               <div className="flex flex-col items-center text-center gap-1">
+                <div className="text-base leading-none tracking-tight mb-0.5 opacity-80">
+                  {game.preview}
+                </div>
                 <span className="text-3xl drop-shadow-sm leading-none">
                   {game.emoji}
                 </span>
@@ -259,9 +277,9 @@ export default function Home() {
         {/* Footer */}
         <div className="mt-8 text-center text-xs text-purple-300">
           <p className="font-semibold text-purple-400">
-            승민 · 건우 · 강우 · 수현 · 이현
+            승민 · 건우 · 강우 · 수현 · 이현 · 준영 · 준우
           </p>
-          <p className="mt-0.5">💙💚🧡💗💖</p>
+          <p className="mt-0.5">💙💚🧡💗💖💜💎</p>
           <p className="mt-1 text-[10px] text-pink-300">
             오늘도 신나게 놀아요~! 🌟
           </p>

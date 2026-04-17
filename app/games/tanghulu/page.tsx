@@ -63,6 +63,8 @@ const CHARACTERS: Character[] = [
   { name: '강우', color: '#F59E0B', emoji: '👨‍🍳', heart: '🧡', bgColor: '#FFFBEB' },
   { name: '수현', color: '#EC4899', emoji: '💃', heart: '💗', bgColor: '#FDF2F8' },
   { name: '이현', color: '#FF69B4', emoji: '👸', heart: '💖', bgColor: '#FCE4EC' },
+  { name: '준영', color: '#6366F1', emoji: '📚', heart: '💜', bgColor: '#EEF2FF' },
+  { name: '준우', color: '#0EA5E9', emoji: '✈️', heart: '💎', bgColor: '#F0F9FF' },
 ];
 
 const FRUIT_DEFS: FruitDef[] = [

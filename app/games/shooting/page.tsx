@@ -98,6 +98,8 @@ const CHARACTERS: Character[] = [
   { name: '강우', color: '#F59E0B', emoji: '👨‍🍳', heart: '🧡', desc: '요리사' },
   { name: '수현', color: '#EC4899', emoji: '💃', heart: '💗', desc: '13살' },
   { name: '이현', color: '#FF69B4', emoji: '👸', heart: '💖', desc: '7살 공주' },
+  { name: '준영', color: '#6366F1', emoji: '📚', heart: '💜', desc: '독서왕' },
+  { name: '준우', color: '#0EA5E9', emoji: '✈️', heart: '💎', desc: '파일럿' },
 ];
 
 const ENEMY_EMOJIS_SMALL = ['👾', '🛸', '🤡', '👻', '🐙'];

@@ -46,6 +46,8 @@ const CHARACTERS: Character[] = [
   { name: '강우', color: '#F59E0B', emoji: '👨‍🍳', heart: '🧡' },
   { name: '수현', color: '#EC4899', emoji: '💃', heart: '💗' },
   { name: '이현', color: '#FF69B4', emoji: '👸', heart: '💖' },
+  { name: '준영', color: '#6366F1', emoji: '📚', heart: '💜' },
+  { name: '준우', color: '#0EA5E9', emoji: '✈️', heart: '💎' },
 ];
 
 const GRAVITY = 0.28;
