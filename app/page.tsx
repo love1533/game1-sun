@@ -41,24 +41,74 @@ const games = [
     color: "from-green-200 to-emerald-200",
     shadow: "shadow-green-100",
   },
+  {
+    name: "낚시왕",
+    description: "찰랑찰랑~ 물고기를 낚아올려라! 🌊",
+    href: "/games/fishing",
+    emoji: "🎣",
+    color: "from-sky-200 to-blue-200",
+    shadow: "shadow-sky-100",
+  },
+  {
+    name: "버블팝",
+    description: "팡팡팡! 방울을 터뜨려봐! ✨",
+    href: "/games/bubble",
+    emoji: "🫧",
+    color: "from-violet-200 to-purple-200",
+    shadow: "shadow-violet-100",
+  },
+  {
+    name: "요리사",
+    description: "냠냠~ 맛있는 요리를 만들어봐! 🍽️",
+    href: "/games/cooking",
+    emoji: "🍳",
+    color: "from-yellow-200 to-amber-200",
+    shadow: "shadow-yellow-100",
+  },
+  {
+    name: "우주탐험",
+    description: "슝슝~ 별들 사이를 날아다녀봐! 🌟",
+    href: "/games/space",
+    emoji: "🚀",
+    color: "from-indigo-200 to-violet-200",
+    shadow: "shadow-indigo-100",
+  },
+  {
+    name: "리듬게임",
+    description: "두둠칫~ 리듬에 맞춰 신나게 춰봐! 🎶",
+    href: "/games/rhythm",
+    emoji: "🎵",
+    color: "from-fuchsia-200 to-pink-200",
+    shadow: "shadow-fuchsia-100",
+  },
+  {
+    name: "탕후루",
+    description: "달콤달콤~ 예쁜 탕후루를 만들어봐! 🍬",
+    href: "/games/tanghulu",
+    emoji: "🍡",
+    color: "from-red-200 to-rose-200",
+    shadow: "shadow-red-100",
+  },
 ];
 
 const characters = [
-  { name: "수현", emoji: "😎", color: "bg-purple-300", desc: "용감한 리더!" },
-  { name: "이현", emoji: "👸", color: "bg-pink-300", desc: "핑크 공주님!" },
-  { name: "은영", emoji: "🥰", color: "bg-pink-300", desc: "다정한 힐러!" },
-  { name: "민구", emoji: "😜", color: "bg-green-300", desc: "장난꾸러기!" },
+  { name: "수현", emoji: "🧢", color: "bg-red-300", desc: "포켓몬 트레이너!" },
+  { name: "이현", emoji: "👸", color: "bg-pink-300", desc: "마법소녀 공주!" },
+  { name: "은영", emoji: "🌸", color: "bg-rose-300", desc: "꽃의 요정!" },
+  { name: "민구", emoji: "🏴‍☠️", color: "bg-amber-300", desc: "해적왕 모험가!" },
 ];
 
 const decorations = [
-  { symbol: "⭐", top: "6%", left: "5%", delay: "0s", size: "text-lg" },
-  { symbol: "💛", top: "10%", left: "85%", delay: "0.4s", size: "text-base" },
-  { symbol: "🌸", top: "22%", left: "92%", delay: "0.8s", size: "text-sm" },
-  { symbol: "✨", top: "35%", left: "3%", delay: "1.2s", size: "text-base" },
-  { symbol: "💜", top: "55%", left: "90%", delay: "0.6s", size: "text-sm" },
-  { symbol: "🌟", top: "70%", left: "6%", delay: "1.0s", size: "text-lg" },
-  { symbol: "💕", top: "80%", left: "88%", delay: "0.2s", size: "text-base" },
-  { symbol: "🍭", top: "90%", left: "12%", delay: "1.4s", size: "text-sm" },
+  { symbol: "⭐", top: "4%", left: "4%", delay: "0s", size: "text-lg" },
+  { symbol: "💛", top: "9%", left: "84%", delay: "0.4s", size: "text-base" },
+  { symbol: "🌸", top: "20%", left: "91%", delay: "0.8s", size: "text-sm" },
+  { symbol: "✨", top: "34%", left: "2%", delay: "1.2s", size: "text-base" },
+  { symbol: "💜", top: "50%", left: "89%", delay: "0.6s", size: "text-sm" },
+  { symbol: "🌟", top: "65%", left: "5%", delay: "1.0s", size: "text-lg" },
+  { symbol: "💕", top: "78%", left: "87%", delay: "0.2s", size: "text-base" },
+  { symbol: "🍭", top: "88%", left: "10%", delay: "1.4s", size: "text-sm" },
+  { symbol: "🎀", top: "15%", left: "50%", delay: "0.9s", size: "text-xs" },
+  { symbol: "🌈", top: "72%", left: "45%", delay: "1.6s", size: "text-xs" },
 ];
 
 export default function Home() {
@@ -76,10 +126,6 @@ export default function Home() {
         @keyframes float-deco {
           0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
           50% { transform: translateY(-10px) rotate(15deg); opacity: 1; }
-        }
-        @keyframes shimmer-card {
-          0%, 100% { box-shadow: 0 4px 20px rgba(200, 180, 255, 0.25); }
-          50% { box-shadow: 0 6px 28px rgba(200, 180, 255, 0.45); }
         }
         .title-bounce {
           animation: bounce-title 2.4s ease-in-out infinite;
@@ -126,7 +172,7 @@ export default function Home() {
         </div>
 
         {/* Characters */}
-        <div className="flex gap-4 mb-7">
+        <div className="flex gap-3 mb-7 flex-wrap justify-center">
           {characters.map((char, i) => (
             <div
               key={char.name}
@@ -141,32 +187,33 @@ export default function Home() {
               <span className="text-xs font-bold text-gray-600 mt-1">
                 {char.name}
               </span>
-              <span className="text-[9px] text-gray-400">{char.desc}</span>
+              <span className="text-[9px] text-gray-400 text-center leading-tight max-w-[56px]">
+                {char.desc}
+              </span>
             </div>
           ))}
         </div>
 
-        {/* Game Cards */}
-        <div className="w-full max-w-sm flex flex-col gap-3">
+        {/* Game Cards — 2-column grid */}
+        <div className="w-full max-w-sm grid grid-cols-2 gap-3">
           {games.map((game) => (
             <Link
               key={game.name}
               href={game.href}
-              className={`block rounded-3xl bg-gradient-to-r ${game.color} p-4 shadow-lg ${game.shadow}
+              className={`block rounded-2xl bg-gradient-to-br ${game.color} p-3 shadow-lg ${game.shadow}
                 border border-white/60
                 transform transition-all duration-200 active:scale-95 hover:scale-[1.03] hover:shadow-xl`}
             >
-              <div className="flex items-center gap-3">
-                <span className="text-4xl drop-shadow-sm">{game.emoji}</span>
-                <div className="flex-1">
-                  <h2 className="text-base font-extrabold text-gray-700 leading-tight">
-                    {game.name}
-                  </h2>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    {game.description}
-                  </p>
-                </div>
-                <span className="text-lg text-gray-400/70">▶</span>
+              <div className="flex flex-col items-center text-center gap-1">
+                <span className="text-3xl drop-shadow-sm leading-none">
+                  {game.emoji}
+                </span>
+                <h2 className="text-xs font-extrabold text-gray-700 leading-tight mt-0.5">
+                  {game.name}
+                </h2>
+                <p className="text-[9px] text-gray-500 leading-tight line-clamp-2">
+                  {game.description}
+                </p>
               </div>
             </Link>
           ))}
@@ -177,7 +224,7 @@ export default function Home() {
           <p className="font-semibold text-purple-400">
             수현 · 이현 · 은영 · 민구
           </p>
-          <p className="mt-0.5">💜💙💗💚</p>
+          <p className="mt-0.5">❤️💗💖💛</p>
           <p className="mt-1 text-[10px] text-pink-300">
             오늘도 신나게 놀아요~! 🌟
           </p>

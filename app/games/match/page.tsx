@@ -30,10 +30,10 @@ interface ConfettiParticle {
 
 // ─── Characters ───────────────────────────────────────────────────────────────
 const CHARACTERS = [
-  { name: '수현', color: '#9B59B6', emoji: '😎' },
+  { name: '수현', color: '#E74C3C', emoji: '🧢' },
   { name: '이현', color: '#FF69B4', emoji: '👸' },
-  { name: '은영', color: '#E91E8C', emoji: '🥰' },
-  { name: '민구', color: '#2ECC71', emoji: '😜' },
+  { name: '은영', color: '#FF6B9D', emoji: '🌸' },
+  { name: '민구', color: '#F39C12', emoji: '🏴‍☠️' },
 ];
 
 const CARD_EMOJIS = ['🐰', '🐱', '🐻', '🦊', '🐼', '🐶'];

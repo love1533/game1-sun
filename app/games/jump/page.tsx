@@ -40,10 +40,10 @@ interface Star {
 
 // ─── Constants ───────────────────────────────────────────────────
 const CHARACTERS: Character[] = [
-  { name: '수현', color: '#9B59B6', emoji: '😎', heart: '💜' },
+  { name: '수현', color: '#E74C3C', emoji: '🧢', heart: '❤️' },
   { name: '이현', color: '#FF69B4', emoji: '👸', heart: '💗' },
-  { name: '은영', color: '#E91E8C', emoji: '🥰', heart: '💗' },
-  { name: '민구', color: '#2ECC71', emoji: '😜', heart: '💚' },
+  { name: '은영', color: '#FF6B9D', emoji: '🌸', heart: '🌸' },
+  { name: '민구', color: '#F39C12', emoji: '🏴‍☠️', heart: '🧡' },
 ];
 
 const GRAVITY = 0.28;

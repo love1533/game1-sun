@@ -63,10 +63,10 @@ interface FloatingText {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const CHARACTERS: Character[] = [
-  { name: '수현', emoji: '😎', color: '#9B59B6', heart: '💜' },
+  { name: '수현', emoji: '🧢', color: '#E74C3C', heart: '❤️' },
   { name: '이현', emoji: '👸', color: '#FF69B4', heart: '💗' },
-  { name: '은영', emoji: '🥰', color: '#E91E8C', heart: '💗' },
-  { name: '민구', emoji: '😜', color: '#2ECC71', heart: '💚' },
+  { name: '은영', emoji: '🌸', color: '#FF6B9D', heart: '🌸' },
+  { name: '민구', emoji: '🏴‍☠️', color: '#F39C12', heart: '🧡' },
 ];
 
 const GRAVITY = 0.45;
