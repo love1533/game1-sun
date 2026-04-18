@@ -21,6 +21,7 @@ const GAMES = [
   { id: "shooting", label: "슈팅", emoji: "🚀" },
   { id: "tower", label: "블록쌓기", emoji: "🧱" },
   { id: "escape", label: "방탈출", emoji: "🏚️" },
+  { id: "sticky", label: "찐득이", emoji: "🦎" },
 ] as const;
 
 type GameId = (typeof GAMES)[number]["id"] | "all";

@@ -89,6 +89,14 @@ const games = [
     color: "from-gray-400 to-purple-300",
     preview: "🏚️🔦👻",
   },
+  {
+    name: "찐득이",
+    description: "끈끈이 팔로 벽에 붙어 모험하자! 🧲",
+    href: "/games/sticky",
+    emoji: "🦎",
+    color: "from-lime-300 to-green-300",
+    preview: "🦎🧲⭐",
+  },
 ];
 
 const characters = [
