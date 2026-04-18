@@ -13,7 +13,7 @@ const CHARACTERS = [
 ];
 
 const PLAYER_RADIUS = 16;
-const PLAYER_SPEED = 3;
+const PLAYER_SPEED = 4.5;
 const NEIGHBOR_RADIUS = 18;
 const INTERACT_RANGE = 50;
 
@@ -80,7 +80,7 @@ interface GameState {
 function makeRoom1(): RoomData {
   const W = 520, H = 380;
   return {
-    width: W, height: H, bgColor: '#0f0820',
+    width: W, height: H, bgColor: '#1a1035',
     walls: [
       { x: 0, y: 0, w: W, h: 20 },         // top - will have door gap
       { x: 0, y: H - 20, w: W, h: 20 },    // bottom
@@ -234,7 +234,7 @@ function initState(charIdx: number): GameState {
     screen: 'playing', stage: 1, charIdx,
     playerX: room.spawnX, playerY: room.spawnY,
     playerBounce: 0, moving: false,
-    visRadius: 80, inventory: [],
+    visRadius: 150, inventory: [],
     elapsed: 0, uncaughtStages: 0,
     dialog: '거실에 갇혔다! 탐색해보자.', dialogTimer: 180,
     nearObj: null,
@@ -340,7 +340,7 @@ export default function EscapePage() {
       if (nearest.id === 'flashlight') {
         nearest.collected = true;
         s.hasFlashlight = true;
-        s.visRadius = 200;
+        s.visRadius = 300;
         s.inventory.push('🔦');
         s.dialog = '손전등을 주웠다! 이제 더 잘 보인다.';
         s.dialogTimer = 180;
@@ -988,7 +988,7 @@ export default function EscapePage() {
     ctx.globalCompositeOperation = 'source-over';
 
     // Draw dark layer
-    ctx.fillStyle = 'rgba(0,0,0,0.82)';
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
     ctx.fillRect(0, 0, cw, ch);
 
     // Punch hole (use destination-out trick via compositing on offscreen - simplified: use gradient)
@@ -1197,7 +1197,7 @@ export default function EscapePage() {
       newS.uncaughtStages = savedUncaught;
       newS.inventory = savedInv;
       newS.hasFlashlight = savedFlash;
-      newS.visRadius = savedFlash ? 200 : 80;
+      newS.visRadius = savedFlash ? 300 : 150;
       newS.noteRead = savedNote;
       newS.stage2Parts = savedParts;
       newS.rescuedSuhyeon = savedRescuedS;
@@ -1339,17 +1339,18 @@ export default function EscapePage() {
       {/* Mobile E button */}
       <button
         style={{
-          position: 'absolute', bottom: 80, right: 24,
-          width: 70, height: 70, borderRadius: '50%',
-          background: 'rgba(150,100,255,0.4)',
-          border: '2px solid rgba(180,130,255,0.7)',
-          color: '#fff', fontSize: 20, fontWeight: 'bold',
+          position: 'absolute', bottom: 90, right: 20,
+          width: 90, height: 90, borderRadius: '50%',
+          background: 'rgba(150,100,255,0.5)',
+          border: '3px solid rgba(200,160,255,0.8)',
+          color: '#fff', fontSize: 28, fontWeight: 'bold',
           cursor: 'pointer', touchAction: 'manipulation',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexDirection: 'column', gap: 0,
         }}
         onTouchStart={(e) => { e.preventDefault(); handleInteract(); }}
         onClick={handleInteract}
-      >E</button>
+      ><span style={{fontSize:28}}>👆</span><span style={{fontSize:11}}>상호작용</span></button>
 
       {/* Home link (small) */}
       <Link href="/" style={{

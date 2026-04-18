@@ -317,10 +317,8 @@ export default function StickyPage() {
 
   // ─── Start Game ─────────────────────────────────────────────────
   const startGame = useCallback((char: Character) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const W = canvas.width;
-    const H = canvas.height;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
     const levels = makeLevels(W, H);
     const lvl = levels[0];
 
@@ -930,6 +928,11 @@ export default function StickyPage() {
     if (screen !== 'game') return;
     const canvas = canvasRef.current;
     if (!canvas) return;
+    // Ensure canvas is sized
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const gs = stateRef.current;
+    if (gs) { gs.W = canvas.width; gs.H = canvas.height; }
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
