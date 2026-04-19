@@ -25,7 +25,7 @@ interface RoundResult {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const ALL_QUESTIONS: Question[] = [
-  // Movies
+  // Movies (50)
   { id:'M1', type:'movie', answer:'기생충', aliases:['기생충'], hint:'2019 아카데미 작품상 수상', year:2019 },
   { id:'M2', type:'movie', answer:'겨울왕국', aliases:['겨울왕국'], hint:'렛잇고~ 디즈니 애니메이션', year:2013 },
   { id:'M3', type:'movie', answer:'어벤져스', aliases:['어벤져스'], hint:'마블 히어로 총집합', year:2012 },
@@ -35,57 +35,108 @@ const ALL_QUESTIONS: Question[] = [
   { id:'M7', type:'movie', answer:'토이스토리', aliases:['토이 스토리','토이스토리'], hint:'장난감들이 살아 움직여요', year:1995 },
   { id:'M8', type:'movie', answer:'명탐정 코난', aliases:['명탐정코난','코난'], hint:'진실은 언제나 하나!', year:1996 },
   { id:'M9', type:'movie', answer:'짱구는 못말려', aliases:['짱구','짱구는못말려'], hint:'엉덩이 춤의 달인', year:1992 },
-  { id:'M10', type:'movie', answer:'스파이더맨', aliases:['스파이더맨','스파이더 맨'], hint:'거미줄을 쏘는 히어로', year:2002 },
-  { id:'M11', type:'movie', answer:'슈퍼마리오', aliases:['슈퍼 마리오','마리오'], hint:'공주를 구하는 배관공', year:2023 },
+  { id:'M10', type:'movie', answer:'스파이더맨', aliases:['스파이더맨'], hint:'거미줄을 쏘는 히어로', year:2002 },
+  { id:'M11', type:'movie', answer:'슈퍼마리오', aliases:['슈퍼마리오','마리오'], hint:'공주를 구하는 배관공', year:2023 },
   { id:'M12', type:'movie', answer:'도라에몽', aliases:['도라에몽'], hint:'주머니에서 뭐든 나오는 로봇 고양이', year:1980 },
-  { id:'M13', type:'movie', answer:'신비아파트', aliases:['신비 아파트'], hint:'귀신이 나오는 아파트', year:2014 },
-  { id:'M14', type:'movie', answer:'뽀로로', aliases:['뽀로로','포로로'], hint:'노는게 제일 좋아 친구들 모여라', year:2003 },
-  { id:'M15', type:'movie', answer:'콩순이', aliases:['콩순이'], hint:'귀여운 아기 캐릭터', year:2013 },
-  { id:'M16', type:'movie', answer:'타이타닉', aliases:['타이타닉'], hint:'배가 빙산에 부딪혀 침몰', year:1997 },
-  { id:'M17', type:'movie', answer:'주토피아', aliases:['주토피아'], hint:'동물들이 사는 도시', year:2016 },
-  { id:'M18', type:'movie', answer:'코코', aliases:['코코'], hint:'멕시코 망자의 날 음악 영화', year:2017 },
-  { id:'M19', type:'movie', answer:'모아나', aliases:['모아나'], hint:'바다를 건너는 공주', year:2016 },
-  { id:'M20', type:'movie', answer:'라이온킹', aliases:['라이온 킹','라이온킹'], hint:'아프리카 사자 왕', year:1994 },
-  { id:'M21', type:'movie', answer:'알라딘', aliases:['알라딘'], hint:'램프의 요정 지니', year:1992 },
-  { id:'M22', type:'movie', answer:'엘리멘탈', aliases:['엘리멘탈'], hint:'불과 물의 사랑 이야기', year:2023 },
-  { id:'M23', type:'movie', answer:'터닝레드', aliases:['터닝 레드','터닝레드'], hint:'흥분하면 빨간 판다로 변신', year:2022 },
-  { id:'M24', type:'movie', answer:'짱구 극장판', aliases:['짱구극장판'], hint:'어른의 제국 역습!', year:2001 },
-  { id:'M25', type:'movie', answer:'포켓몬스터', aliases:['포켓몬','포켓몬스터'], hint:'피카피카! 몬스터볼 던져', year:1997 },
-  // Memes
-  { id:'MM1', type:'meme', answer:'이것은 실화입니다', aliases:['이것은실화입니다'], hint:'믿기 어려운 이야기 끝에', year:2024 },
-  { id:'MM2', type:'meme', answer:'무야호', aliases:['무야호'], hint:'유재석 신나서 외치는 소리', year:2021 },
-  { id:'MM3', type:'meme', answer:'어쩔티비', aliases:['어쩔티비','어쩔 티비'], hint:'말대꾸 할 때 쓰는 유행어', year:2021 },
-  { id:'MM4', type:'meme', answer:'킹받네', aliases:['킹받네','킹받다'], hint:'매우 화가 날 때 쓰는 말', year:2022 },
-  { id:'MM5', type:'meme', answer:'갑분싸', aliases:['갑분싸','갑자기분위기싸해짐'], hint:'갑자기 분위기 싸해짐', year:2018 },
-  { id:'MM6', type:'meme', answer:'점메추', aliases:['점메추','점심메뉴추천'], hint:'점심 메뉴 추천해줘', year:2022 },
-  { id:'MM7', type:'meme', answer:'별다줄', aliases:['별다줄','별걸다줄인다'], hint:'별걸 다 줄인다', year:2022 },
-  { id:'MM8', type:'meme', answer:'중꺾마', aliases:['중꺾마','중요한건꺾이지않는마음'], hint:'중요한 건 꺾이지 않는 마음', year:2022 },
-  { id:'MM9', type:'meme', answer:'얼죽아', aliases:['얼죽아','얼어죽어도아이스'], hint:'얼어 죽어도 아이스 아메리카노', year:2018 },
-  { id:'MM10', type:'meme', answer:'오히려 좋아', aliases:['오히려좋아'], hint:'안 좋은 상황인데 긍정적으로', year:2023 },
-  { id:'MM11', type:'meme', answer:'실화냐', aliases:['실화냐'], hint:'놀라울 때 쓰는 말', year:2020 },
-  { id:'MM12', type:'meme', answer:'뇌절', aliases:['뇌절'], hint:'같은 드립을 반복할 때', year:2022 },
-  { id:'MM13', type:'meme', answer:'갓생', aliases:['갓생','갓생살기'], hint:'알차고 보람찬 하루', year:2022 },
-  { id:'MM14', type:'meme', answer:'오운완', aliases:['오운완','오늘운동완료'], hint:'오늘 운동 완료', year:2023 },
-  { id:'MM15', type:'meme', answer:'디토', aliases:['디토'], hint:'나도 같은 생각이야', year:2022 },
-  { id:'MM16', type:'meme', answer:'ㅋㅋ루삥뽕', aliases:['ㅋㅋ루삥뽕'], hint:'웃길 때 쓰는 과장 표현', year:2023 },
-  { id:'MM17', type:'meme', answer:'억텐', aliases:['억텐','억지텐션'], hint:'억지 텐션', year:2023 },
-  { id:'MM18', type:'meme', answer:'좋댓구알', aliases:['좋댓구알','좋아요댓글구독알림'], hint:'좋아요 댓글 구독 알림설정', year:2020 },
-  { id:'MM19', type:'meme', answer:'이게 맞아?', aliases:['이게맞아'], hint:'의심스러울 때 쓰는 말', year:2024 },
-  { id:'MM20', type:'meme', answer:'알잘딱깔센', aliases:['알잘딱깔센'], hint:'알아서 잘 딱 깔끔하고 센스있게', year:2021 },
-  { id:'MM21', type:'meme', answer:'가보자고', aliases:['가보자고'], hint:'도전할 때 외치는 말', year:2023 },
-  { id:'MM22', type:'meme', answer:'레게노', aliases:['레게노','레전드'], hint:'레전드를 귀엽게 발음', year:2023 },
-  { id:'MM23', type:'meme', answer:'스불재', aliases:['스불재','스스로불러온재앙'], hint:'스스로 불러온 재앙', year:2022 },
-  { id:'MM24', type:'meme', answer:'맛도리', aliases:['맛도리','맛있는도리토스'], hint:'맛있다를 귀엽게', year:2024 },
-  { id:'MM25', type:'meme', answer:'혼코노', aliases:['혼코노','혼자코인노래방'], hint:'혼자 코인 노래방', year:2023 },
+  { id:'M13', type:'movie', answer:'신비아파트', aliases:['신비아파트'], hint:'귀신이 나오는 아파트', year:2014 },
+  { id:'M14', type:'movie', answer:'뽀로로', aliases:['뽀로로'], hint:'노는게 제일 좋아 친구들 모여라', year:2003 },
+  { id:'M15', type:'movie', answer:'타이타닉', aliases:['타이타닉'], hint:'배가 빙산에 부딪혀 침몰', year:1997 },
+  { id:'M16', type:'movie', answer:'주토피아', aliases:['주토피아'], hint:'동물들이 사는 도시', year:2016 },
+  { id:'M17', type:'movie', answer:'모아나', aliases:['모아나'], hint:'바다를 건너는 디즈니 공주', year:2016 },
+  { id:'M18', type:'movie', answer:'라이온킹', aliases:['라이온킹'], hint:'아프리카 사자 왕', year:1994 },
+  { id:'M19', type:'movie', answer:'알라딘', aliases:['알라딘'], hint:'램프의 요정 지니', year:1992 },
+  { id:'M20', type:'movie', answer:'엘리멘탈', aliases:['엘리멘탈'], hint:'불과 물의 사랑 이야기', year:2023 },
+  { id:'M21', type:'movie', answer:'터닝레드', aliases:['터닝레드'], hint:'흥분하면 빨간 판다로 변신', year:2022 },
+  { id:'M22', type:'movie', answer:'포켓몬스터', aliases:['포켓몬','포켓몬스터'], hint:'피카피카! 몬스터볼 던져', year:1997 },
+  { id:'M23', type:'movie', answer:'원피스', aliases:['원피스'], hint:'해적왕이 되겠다! 루피', year:1999 },
+  { id:'M24', type:'movie', answer:'나루토', aliases:['나루토'], hint:'다테바요! 닌자 소년', year:2002 },
+  { id:'M25', type:'movie', answer:'귀멸의 칼날', aliases:['귀멸의칼날','귀멸'], hint:'탄지로의 도깨비 퇴치', year:2019 },
+  { id:'M26', type:'movie', answer:'드래곤볼', aliases:['드래곤볼'], hint:'카메하메하! 손오공', year:1986 },
+  { id:'M27', type:'movie', answer:'미니언즈', aliases:['미니언즈'], hint:'바나나~ 노란 알약 생물체', year:2015 },
+  { id:'M28', type:'movie', answer:'슈렉', aliases:['슈렉'], hint:'초록색 오우거의 모험', year:2001 },
+  { id:'M29', type:'movie', answer:'쿵푸팬더', aliases:['쿵푸팬더','쿵푸 팬더'], hint:'뚱뚱한 팬더가 무술 마스터', year:2008 },
+  { id:'M30', type:'movie', answer:'아이언맨', aliases:['아이언맨'], hint:'토니 스타크의 철갑 슈트', year:2008 },
+  { id:'M31', type:'movie', answer:'블랙팬서', aliases:['블랙팬서'], hint:'와칸다 포에버!', year:2018 },
+  { id:'M32', type:'movie', answer:'닥터스트레인지', aliases:['닥터스트레인지'], hint:'마법사 히어로, 타임스톤', year:2016 },
+  { id:'M33', type:'movie', answer:'앤트맨', aliases:['앤트맨'], hint:'작아지는 히어로', year:2015 },
+  { id:'M34', type:'movie', answer:'토르', aliases:['토르'], hint:'망치 들고 다니는 천둥의 신', year:2011 },
+  { id:'M35', type:'movie', answer:'배트맨', aliases:['배트맨'], hint:'고담시를 지키는 박쥐 히어로', year:2022 },
+  { id:'M36', type:'movie', answer:'수퍼맨', aliases:['수퍼맨','슈퍼맨'], hint:'하늘을 나는 크립톤 영웅', year:1978 },
+  { id:'M37', type:'movie', answer:'트랜스포머', aliases:['트랜스포머'], hint:'자동차가 로봇으로 변신', year:2007 },
+  { id:'M38', type:'movie', answer:'쥬라기공원', aliases:['쥬라기공원','쥬라기 공원'], hint:'공룡이 부활한 섬', year:1993 },
+  { id:'M39', type:'movie', answer:'해운대', aliases:['해운대'], hint:'부산에 쓰나미가 온다!', year:2009 },
+  { id:'M40', type:'movie', answer:'극한직업', aliases:['극한직업'], hint:'치킨집 운영하는 형사들', year:2019 },
+  { id:'M41', type:'movie', answer:'신과함께', aliases:['신과함께'], hint:'저승 재판을 받는 영화', year:2017 },
+  { id:'M42', type:'movie', answer:'택시운전사', aliases:['택시운전사'], hint:'광주로 가는 택시 기사 이야기', year:2017 },
+  { id:'M43', type:'movie', answer:'부산행', aliases:['부산행'], hint:'KTX에서 좀비 발생!', year:2016 },
+  { id:'M44', type:'movie', answer:'올드보이', aliases:['올드보이'], hint:'15년간 갇혀있던 남자의 복수', year:2003 },
+  { id:'M45', type:'movie', answer:'괴물', aliases:['괴물'], hint:'한강에 괴물이 나타났다', year:2006 },
+  { id:'M46', type:'movie', answer:'마당을 나온 암탉', aliases:['마당을나온암탉'], hint:'자유를 찾아 떠난 닭 잎싹', year:2011 },
+  { id:'M47', type:'movie', answer:'너의 이름은', aliases:['너의이름은'], hint:'일본 애니, 몸이 바뀌는 소년소녀', year:2016 },
+  { id:'M48', type:'movie', answer:'센과 치히로', aliases:['센과치히로'], hint:'지브리 온천 세계 모험', year:2001 },
+  { id:'M49', type:'movie', answer:'하울의 움직이는 성', aliases:['하울의움직이는성'], hint:'걸어다니는 성에 사는 마법사', year:2004 },
+  { id:'M50', type:'movie', answer:'이웃집 토토로', aliases:['이웃집토토로','토토로'], hint:'숲속의 커다란 정령 토토로', year:1988 },
+  // Memes (50)
+  { id:'MM1', type:'meme', answer:'무야호', aliases:['무야호'], hint:'유재석 신나서 외치는 소리', year:2021 },
+  { id:'MM2', type:'meme', answer:'어쩔티비', aliases:['어쩔티비'], hint:'말대꾸 할 때 쓰는 유행어', year:2021 },
+  { id:'MM3', type:'meme', answer:'킹받네', aliases:['킹받네'], hint:'매우 화가 날 때 쓰는 말', year:2022 },
+  { id:'MM4', type:'meme', answer:'갑분싸', aliases:['갑분싸'], hint:'갑자기 분위기 싸해짐', year:2018 },
+  { id:'MM5', type:'meme', answer:'점메추', aliases:['점메추'], hint:'점심 메뉴 추천해줘', year:2022 },
+  { id:'MM6', type:'meme', answer:'별다줄', aliases:['별다줄'], hint:'별걸 다 줄인다', year:2022 },
+  { id:'MM7', type:'meme', answer:'중꺾마', aliases:['중꺾마'], hint:'중요한 건 꺾이지 않는 마음', year:2022 },
+  { id:'MM8', type:'meme', answer:'얼죽아', aliases:['얼죽아'], hint:'얼어 죽어도 아이스 아메리카노', year:2018 },
+  { id:'MM9', type:'meme', answer:'실화냐', aliases:['실화냐'], hint:'놀라울 때 쓰는 말', year:2020 },
+  { id:'MM10', type:'meme', answer:'뇌절', aliases:['뇌절'], hint:'같은 드립을 반복할 때', year:2022 },
+  { id:'MM11', type:'meme', answer:'갓생', aliases:['갓생'], hint:'알차고 보람찬 하루', year:2022 },
+  { id:'MM12', type:'meme', answer:'오운완', aliases:['오운완'], hint:'오늘 운동 완료', year:2023 },
+  { id:'MM13', type:'meme', answer:'가보자고', aliases:['가보자고'], hint:'도전할 때 외치는 말', year:2023 },
+  { id:'MM14', type:'meme', answer:'레게노', aliases:['레게노'], hint:'레전드를 귀엽게 발음', year:2023 },
+  { id:'MM15', type:'meme', answer:'스불재', aliases:['스불재'], hint:'스스로 불러온 재앙', year:2022 },
+  { id:'MM16', type:'meme', answer:'맛도리', aliases:['맛도리'], hint:'맛있다를 귀엽게', year:2024 },
+  { id:'MM17', type:'meme', answer:'혼코노', aliases:['혼코노'], hint:'혼자 코인 노래방', year:2023 },
+  { id:'MM18', type:'meme', answer:'억텐', aliases:['억텐'], hint:'억지 텐션', year:2023 },
+  { id:'MM19', type:'meme', answer:'알잘딱깔센', aliases:['알잘딱깔센'], hint:'알아서 잘 딱 깔끔하고 센스있게', year:2021 },
+  { id:'MM20', type:'meme', answer:'오히려 좋아', aliases:['오히려좋아'], hint:'안 좋은 상황인데 긍정적으로', year:2023 },
+  { id:'MM21', type:'meme', answer:'좋댓구알', aliases:['좋댓구알'], hint:'좋아요 댓글 구독 알림설정', year:2020 },
+  { id:'MM22', type:'meme', answer:'TMI', aliases:['TMI','티엠아이'], hint:'Too Much Information 너무 많은 정보', year:2019 },
+  { id:'MM23', type:'meme', answer:'JMT', aliases:['JMT','존맛탱'], hint:'존맛탱! 진짜 맛있다', year:2020 },
+  { id:'MM24', type:'meme', answer:'FLEX', aliases:['FLEX','플렉스'], hint:'돈 자랑, 과시할 때', year:2020 },
+  { id:'MM25', type:'meme', answer:'갓겜', aliases:['갓겜'], hint:'갓 + 게임 = 최고의 게임', year:2021 },
+  { id:'MM26', type:'meme', answer:'현타', aliases:['현타'], hint:'현실 자각 타임', year:2020 },
+  { id:'MM27', type:'meme', answer:'인싸', aliases:['인싸'], hint:'인사이더, 사회성 좋은 사람', year:2019 },
+  { id:'MM28', type:'meme', answer:'아싸', aliases:['아싸'], hint:'아웃사이더, 혼자 노는 사람', year:2019 },
+  { id:'MM29', type:'meme', answer:'갈비탕', aliases:['갈비탕'], hint:'갈수록 비호감 탱구리', year:2024 },
+  { id:'MM30', type:'meme', answer:'삼귀자', aliases:['삼귀자'], hint:'삼초에 귀여워지는 자', year:2023 },
+  { id:'MM31', type:'meme', answer:'만반잘부', aliases:['만반잘부'], hint:'만나서 반갑고 잘 부탁해', year:2021 },
+  { id:'MM32', type:'meme', answer:'꾸안꾸', aliases:['꾸안꾸'], hint:'꾸민 듯 안 꾸민 듯', year:2021 },
+  { id:'MM33', type:'meme', answer:'럭키비키', aliases:['럭키비키'], hint:'럭키비키잖아~ 운이 좋다', year:2024 },
+  { id:'MM34', type:'meme', answer:'아무튼 출근', aliases:['아무튼출근'], hint:'힘들어도 어쨌든 출근하는 직장인', year:2024 },
+  { id:'MM35', type:'meme', answer:'찐친', aliases:['찐친'], hint:'진짜 진짜 친한 친구', year:2022 },
+  { id:'MM36', type:'meme', answer:'취존', aliases:['취존'], hint:'취향 존중', year:2020 },
+  { id:'MM37', type:'meme', answer:'소확행', aliases:['소확행'], hint:'소소하지만 확실한 행복', year:2018 },
+  { id:'MM38', type:'meme', answer:'갑통알', aliases:['갑통알'], hint:'갑자기 통장을 보니 알바를 해야겠다', year:2022 },
+  { id:'MM39', type:'meme', answer:'워라밸', aliases:['워라밸'], hint:'워크 라이프 밸런스', year:2019 },
+  { id:'MM40', type:'meme', answer:'돼지런하다', aliases:['돼지런하다'], hint:'돼지+부지런 = 먹으려고 부지런', year:2023 },
+  { id:'MM41', type:'meme', answer:'이생망', aliases:['이생망'], hint:'이번 생은 망했어', year:2022 },
+  { id:'MM42', type:'meme', answer:'완내스', aliases:['완내스'], hint:'완전 내 스타일', year:2022 },
+  { id:'MM43', type:'meme', answer:'할많하않', aliases:['할많하않'], hint:'할 말은 많지만 하지 않겠다', year:2021 },
+  { id:'MM44', type:'meme', answer:'쌉가능', aliases:['쌉가능'], hint:'완전 가능! 매우 가능!', year:2021 },
+  { id:'MM45', type:'meme', answer:'쫌쫌따리', aliases:['쫌쫌따리'], hint:'아주 조금씩 모으는 것', year:2022 },
+  { id:'MM46', type:'meme', answer:'나만없어고양이', aliases:['나만없어고양이'], hint:'다 있는데 나만 없는 고양이', year:2020 },
+  { id:'MM47', type:'meme', answer:'댕댕이', aliases:['댕댕이'], hint:'멍멍이를 귀엽게 부르는 말', year:2018 },
+  { id:'MM48', type:'meme', answer:'삼시세끼', aliases:['삼시세끼'], hint:'하루 세 끼 밥 먹는 예능', year:2015 },
+  { id:'MM49', type:'meme', answer:'비담', aliases:['비담'], hint:'비주얼 담당', year:2021 },
+  { id:'MM50', type:'meme', answer:'갈무리', aliases:['갈무리'], hint:'가을에 농사 마무리, 정리한다는 뜻', year:2023 },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function getMaskRatio(round: number): number {
-  if (round <= 3) return 0.30;
-  if (round <= 6) return 0.50;
-  if (round <= 9) return 0.70;
-  return 0.85;
+  if (round <= 5) return 0.25;
+  if (round <= 10) return 0.40;
+  if (round <= 15) return 0.55;
+  if (round <= 18) return 0.70;
+  return 0.80;
 }
 
 function maskAnswer(answer: string, ratio: number): string {
@@ -99,14 +150,22 @@ function maskAnswer(answer: string, ratio: number): string {
 }
 
 function generateChoices(correctQ: Question, allQs: Question[]): string[] {
+  const correctLen = correctQ.answer.replace(/\s/g, '').length;
   const sameType = allQs.filter(q => q.type === correctQ.type && q.id !== correctQ.id);
-  const shuffled = [...sameType].sort(() => Math.random() - 0.5);
-  const wrongs = shuffled.slice(0, 3).map(q => q.answer);
+  // Sort by similarity in character count (closest length first)
+  const sorted = [...sameType].sort((a, b) => {
+    const diffA = Math.abs(a.answer.replace(/\s/g, '').length - correctLen);
+    const diffB = Math.abs(b.answer.replace(/\s/g, '').length - correctLen);
+    if (diffA !== diffB) return diffA - diffB;
+    return Math.random() - 0.5;
+  });
+  // Pick top 3 similar-length wrong answers, then shuffle
+  const wrongs = sorted.slice(0, 3).map(q => q.answer);
   return [correctQ.answer, ...wrongs].sort(() => Math.random() - 0.5);
 }
 
 function pickQuestions(): Question[] {
-  return [...ALL_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 10);
+  return [...ALL_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 20);
 }
 
 function playSound(type: 'correct' | 'wrong' | 'tick') {
@@ -265,7 +324,7 @@ export default function MemePage() {
     if (advanceRef.current) clearTimeout(advanceRef.current);
     advanceRef.current = setTimeout(() => {
       const nextRound = currentRound + 1;
-      if (nextRound >= 10 || newLives <= 0) {
+      if (nextRound >= 20 || newLives <= 0) {
         finishGame(newScore, newCorrect, newResults);
       } else {
         setCurrentRound(nextRound);
@@ -422,7 +481,7 @@ export default function MemePage() {
           <div className="bg-white rounded-full px-4 py-1.5 shadow-sm border border-gray-100">
             <span className="font-black text-[#7C3AED] text-sm">💎 {score.toLocaleString()}</span>
           </div>
-          <div className="text-sm font-bold text-gray-400">{currentRound + 1}<span className="text-gray-300">/10</span></div>
+          <div className="text-sm font-bold text-gray-400">{currentRound + 1}<span className="text-gray-300">/20</span></div>
         </div>
 
         {/* Timer bar */}
@@ -507,7 +566,7 @@ export default function MemePage() {
     const isHighScore = score >= bestScore && score > 0;
 
     const shareResult = () => {
-      const text = `🎬💬 밈밈! MeMeme!\n💎 ${score.toLocaleString()}점 | ${correctCount}/10 정답\n${emojiGrid}`;
+      const text = `🎬💬 밈밈! MeMeme!\n💎 ${score.toLocaleString()}점 | ${correctCount}/20 정답\n${emojiGrid}`;
       navigator.clipboard.writeText(text).then(() => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
@@ -528,7 +587,7 @@ export default function MemePage() {
         <div className="bg-[#7C3AED] rounded-2xl p-6 text-center text-white shadow-lg">
           <p className="text-sm font-medium opacity-80 mb-1">최종 점수</p>
           <p className="text-5xl font-black mb-2">{score.toLocaleString()}<span className="text-2xl ml-1">점</span></p>
-          <p className="text-sm font-bold opacity-90">{correctCount}/10 정답</p>
+          <p className="text-sm font-bold opacity-90">{correctCount}/20 정답</p>
           {isHighScore && (
             <div className="mt-3 inline-block bg-white/20 rounded-full px-4 py-1 text-sm font-bold">
               🏆 최고기록 갱신!
