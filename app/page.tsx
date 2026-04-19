@@ -8,6 +8,17 @@ const GAMES_PER_PAGE = 4;
 
 const games = [
   {
+    id: "meme",
+    name: "밈밈!",
+    desc: "밈과 영화 제목을 맞춰봐!",
+    href: "/games/meme",
+    emoji: "🎬",
+    tag: "HOT",
+    tagColor: "#EF4444",
+    bg: "#FFF0F5",
+    border: "#FBCFE8",
+  },
+  {
     id: "hospital",
     name: "병원놀이",
     desc: "귀여운 동물 환자를 치료해요!",
@@ -122,17 +133,6 @@ const games = [
     emoji: "🍡",
     bg: "#FFF0F6",
     border: "#FBCFE8",
-  },
-  {
-    id: "meme",
-    name: "밈밈!",
-    desc: "밈과 영화 제목을 맞춰봐!",
-    href: "/games/meme",
-    emoji: "🎮",
-    tag: "NEW",
-    tagColor: "#EF4444",
-    bg: "#FFFDE0",
-    border: "#FDE68A",
   },
 ];
 
