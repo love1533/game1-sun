@@ -27,8 +27,9 @@ interface Song {
   accentColor: string;
   lyrics: LyricLine[];
   notePattern: NoteSection[];
-  scaleFreqs: number[];
-  buildBGM: (duration: number) => BGMNote[];
+  waveType: OscillatorType;
+  melodyNotes: number[];
+  bassNote: number;
 }
 
 interface LyricLine {
@@ -144,216 +145,55 @@ function buildBassLoop(
 
 // ─── Songs ────────────────────────────────────────────────────────────────────
 const SONGS: Song[] = [
-  {
-    id: 0,
-    title: 'APT.',
-    artist: '로제 & 브루노마스',
-    bpm: 148,
-    difficulty: 3,
-    color: '#FF6B9D',
-    accentColor: '#FFB3C6',
-    scaleFreqs: [523.25, 587.33, 659.25, 783.99, 880.0, 1046.5],
-    lyrics: [
-      { time: 0,     text: '🎵 APT. 🎵',          subText: '로제 & 브루노마스' },
-      { time: 3000,  text: '아파트 아파트',          subText: '아파트 아파트' },
-      { time: 7000,  text: '에이피티 에이피티',       subText: 'APT. APT.' },
-      { time: 11000, text: '아파트 아파트',          subText: '아파트 아파트' },
-      { time: 15000, text: '에이피티!',             subText: 'Come on!' },
-      { time: 19000, text: '아파트 아파트',          subText: '아파트 아파트' },
-      { time: 23000, text: '에이피티 에이피티',       subText: 'APT. APT.' },
-      { time: 27000, text: '아파트 아파트',          subText: '우리만의 공간' },
-      { time: 31000, text: '에이피티!',             subText: "Let's go!" },
-      { time: 35000, text: '아파트 아파트',          subText: '아파트 아파트' },
-      { time: 39000, text: '에이피티 에이피티',       subText: 'APT. APT.' },
-      { time: 43000, text: '아파트 아파트',          subText: '아파트 아파트' },
-      { time: 47000, text: '에이피티! ✨',           subText: 'Finale!' },
-    ],
-    notePattern: [
-      { start: 2000,  intervalMs: Math.round(60000/148*2),   count: 8,  pattern: 'single' },
-      { start: 8500,  intervalMs: Math.round(60000/148),     count: 12, pattern: 'pair' },
-      { start: 17000, intervalMs: Math.round(60000/148*1.5), count: 10, pattern: 'single' },
-      { start: 24000, intervalMs: Math.round(60000/148),     count: 16, pattern: 'pair' },
-      { start: 34000, intervalMs: Math.round(60000/148*2),   count: 8,  pattern: 'single' },
-      { start: 41000, intervalMs: Math.round(60000/148),     count: 12, pattern: 'pair' },
-      { start: 48000, intervalMs: Math.round(60000/148*1.5), count: 6,  pattern: 'triple' },
-    ],
-    buildBGM: (dur) => {
-      const beat = 60 / 148;
-      const melody = [523.25, 659.25, 783.99, 880.0, 783.99, 659.25, 523.25, 587.33];
-      const bass   = [261.63, 329.63, 392.0, 440.0];
-      return [
-        ...buildMelodyLoop(melody, beat, dur),
-        ...buildBassLoop(bass, beat * 2, dur, 0),
-      ];
-    },
-  },
-  {
-    id: 1,
-    title: 'Super Shy',
-    artist: '뉴진스',
-    bpm: 130,
-    difficulty: 2,
-    color: '#5CE1C0',
-    accentColor: '#B3F0DC',
-    scaleFreqs: [392.0, 440.0, 493.88, 587.33, 659.25, 783.99],
-    lyrics: [
-      { time: 0,     text: '🎵 Super Shy 🎵',         subText: '뉴진스' },
-      { time: 3000,  text: '슈퍼 샤이',                subText: 'Super Shy' },
-      { time: 7000,  text: "I'm super shy",           subText: '슈퍼 샤이' },
-      { time: 11000, text: '슈퍼 샤이 슈퍼 샤이',       subText: 'Super shy super shy' },
-      { time: 15000, text: "I want to but I'm shy",   subText: '말하고 싶어' },
-      { time: 19000, text: '슈퍼 샤이',                subText: 'Super Shy' },
-      { time: 23000, text: "I'm super super shy",     subText: '너무 떨려' },
-      { time: 27000, text: '슈퍼 샤이 슈퍼 샤이',       subText: 'Super shy super shy' },
-      { time: 31000, text: 'Can you see me?',         subText: '날 봐줘' },
-      { time: 35000, text: '슈퍼 샤이',                subText: 'Super Shy' },
-      { time: 39000, text: "I'm super super shy",     subText: '슈퍼 샤이' },
-      { time: 43000, text: '슈퍼 샤이 슈퍼 샤이 ✨',    subText: 'Finale!' },
-    ],
-    notePattern: [
-      { start: 2000,  intervalMs: Math.round(60000/130*2),   count: 8,  pattern: 'single' },
-      { start: 9000,  intervalMs: Math.round(60000/130*1.5), count: 10, pattern: 'pair' },
-      { start: 17000, intervalMs: Math.round(60000/130),     count: 12, pattern: 'single' },
-      { start: 25000, intervalMs: Math.round(60000/130),     count: 14, pattern: 'pair' },
-      { start: 34000, intervalMs: Math.round(60000/130*2),   count: 7,  pattern: 'single' },
-      { start: 41000, intervalMs: Math.round(60000/130*1.5), count: 10, pattern: 'pair' },
-    ],
-    buildBGM: (dur) => {
-      const beat = 60 / 130;
-      const melody = [392.0, 493.88, 587.33, 659.25, 587.33, 493.88, 440.0, 392.0];
-      const bass   = [196.0, 246.94, 293.66, 329.63];
-      return [
-        ...buildMelodyLoop(melody, beat, dur),
-        ...buildBassLoop(bass, beat * 2, dur),
-      ];
-    },
-  },
-  {
-    id: 2,
-    title: 'Ditto',
-    artist: '뉴진스',
-    bpm: 100,
-    difficulty: 1,
-    color: '#C9B3F5',
-    accentColor: '#E8D5FF',
-    scaleFreqs: [349.23, 392.0, 440.0, 523.25, 587.33, 698.46],
-    lyrics: [
-      { time: 0,     text: '🎵 Ditto 🎵',           subText: '뉴진스' },
-      { time: 3500,  text: '디토 디토 디토',           subText: 'Ditto ditto' },
-      { time: 8000,  text: 'I want you',             subText: '나는 너를 원해' },
-      { time: 12000, text: '디토 디토',               subText: 'Ditto ditto' },
-      { time: 16000, text: 'Only you',               subText: '오직 너뿐이야' },
-      { time: 20000, text: '디토 디토 디토',           subText: 'Ditto ditto' },
-      { time: 24000, text: 'I want you, need you',   subText: '너가 필요해' },
-      { time: 28000, text: '디토 디토',               subText: 'Ditto ditto' },
-      { time: 32000, text: 'I want you',             subText: '나는 너를 원해' },
-      { time: 36000, text: '디토 디토 디토',           subText: 'Ditto ditto' },
-      { time: 40000, text: 'Only you forever',       subText: '영원히 너뿐' },
-      { time: 44000, text: '디토 💜',                 subText: 'Ditto~' },
-    ],
-    notePattern: [
-      { start: 2500,  intervalMs: Math.round(60000/100*2.5), count: 7,  pattern: 'single' },
-      { start: 10000, intervalMs: Math.round(60000/100*2),   count: 9,  pattern: 'single' },
-      { start: 18000, intervalMs: Math.round(60000/100*1.5), count: 11, pattern: 'pair' },
-      { start: 27000, intervalMs: Math.round(60000/100*2),   count: 8,  pattern: 'single' },
-      { start: 35000, intervalMs: Math.round(60000/100*1.5), count: 10, pattern: 'pair' },
-      { start: 43000, intervalMs: Math.round(60000/100*2),   count: 5,  pattern: 'single' },
-    ],
-    buildBGM: (dur) => {
-      const beat = 60 / 100;
-      const melody = [349.23, 440.0, 523.25, 587.33, 523.25, 440.0, 392.0, 349.23];
-      const bass   = [174.61, 220.0, 261.63, 293.66];
-      return [
-        ...buildMelodyLoop(melody, beat * 1.5, dur, 0, 0.1, 'triangle'),
-        ...buildBassLoop(bass, beat * 3, dur),
-      ];
-    },
-  },
-  {
-    id: 3,
-    title: 'LOVE DIVE',
-    artist: '아이브',
-    bpm: 130,
-    difficulty: 3,
-    color: '#FFD700',
-    accentColor: '#FFF0A0',
-    scaleFreqs: [293.66, 329.63, 369.99, 440.0, 493.88, 587.33],
-    lyrics: [
-      { time: 0,     text: '🎵 LOVE DIVE 🎵',           subText: '아이브' },
-      { time: 3000,  text: '러브 다이브',                subText: 'Love Dive' },
-      { time: 7000,  text: '난 궁금해 지고 있어',          subText: "I'm getting curious" },
-      { time: 11000, text: '러브 다이브',                subText: 'Love Dive' },
-      { time: 15000, text: '네 맘속으로 다이브',           subText: 'Diving into your heart' },
-      { time: 19000, text: '러브 다이브 러브 다이브',       subText: 'Love Dive Love Dive' },
-      { time: 23000, text: '난 궁금해 지고 있어',          subText: 'I wonder about you' },
-      { time: 27000, text: '러브 다이브',                subText: 'Love Dive' },
-      { time: 31000, text: '네가 좋아 너무 좋아',          subText: 'I like you so much' },
-      { time: 35000, text: '러브 다이브 러브 다이브',       subText: 'Love Dive Love Dive' },
-      { time: 39000, text: '난 궁금해 지고 있어',          subText: 'Getting curious about you' },
-      { time: 43000, text: '러브 다이브 ✨',              subText: 'Love Dive~' },
-    ],
-    notePattern: [
-      { start: 2000,  intervalMs: Math.round(60000/130*2),    count: 8,  pattern: 'single' },
-      { start: 9000,  intervalMs: Math.round(60000/130),      count: 12, pattern: 'pair' },
-      { start: 17000, intervalMs: Math.round(60000/130*1.5),  count: 10, pattern: 'single' },
-      { start: 25000, intervalMs: Math.round(60000/130*0.75), count: 14, pattern: 'pair' },
-      { start: 33000, intervalMs: Math.round(60000/130*2),    count: 8,  pattern: 'single' },
-      { start: 40000, intervalMs: Math.round(60000/130),      count: 12, pattern: 'pair' },
-      { start: 47000, intervalMs: Math.round(60000/130*1.5),  count: 5,  pattern: 'triple' },
-    ],
-    buildBGM: (dur) => {
-      const beat = 60 / 130;
-      const melody = [349.23, 440.0, 523.25, 587.33, 698.46, 587.33, 523.25, 440.0];
-      const bass   = [174.61, 220.0, 261.63, 293.66];
-      return [
-        ...buildMelodyLoop(melody, beat, dur),
-        ...buildBassLoop(bass, beat * 2, dur),
-      ];
-    },
-  },
-  {
-    id: 4,
-    title: '하입보이',
-    artist: '뉴진스',
-    bpm: 128,
-    difficulty: 4,
-    color: '#FF8C42',
-    accentColor: '#FFD0A0',
-    scaleFreqs: [440.0, 493.88, 554.37, 659.25, 739.99, 880.0],
-    lyrics: [
-      { time: 0,     text: '🎵 하입보이 🎵',           subText: '뉴진스' },
-      { time: 2500,  text: '하입보이 하입보이',          subText: 'Hype boy hype boy' },
-      { time: 6500,  text: 'Cookie cookie cookie',     subText: '쿠키 쿠키 쿠키' },
-      { time: 10500, text: '하입보이 하입보이',          subText: 'Hype boy hype boy' },
-      { time: 14500, text: 'Gimme that hype',          subText: '그 하입을 줘' },
-      { time: 18500, text: '하입보이 하입보이',          subText: 'Hype boy hype boy' },
-      { time: 22500, text: 'Cookie cookie cookie',     subText: '쿠키 쿠키 쿠키' },
-      { time: 26500, text: '하입보이!',                subText: 'Hype boy!' },
-      { time: 30500, text: 'Get it get it get it',     subText: '가져 가져 가져' },
-      { time: 34500, text: '하입보이 하입보이',          subText: 'Hype boy hype boy' },
-      { time: 38500, text: 'Cookie cookie cookie',     subText: '쿠키 쿠키 쿠키' },
-      { time: 42500, text: '하입보이 하입보이',          subText: 'Hype boy hype boy' },
-      { time: 46500, text: '하입보이! 🔥',             subText: 'Finale!' },
-    ],
-    notePattern: [
-      { start: 1500,  intervalMs: Math.round(60000/128*1.5),  count: 9,  pattern: 'single' },
-      { start: 8000,  intervalMs: Math.round(60000/128),      count: 12, pattern: 'pair' },
-      { start: 15000, intervalMs: Math.round(60000/128*0.75), count: 10, pattern: 'pair' },
-      { start: 22000, intervalMs: Math.round(60000/128),      count: 14, pattern: 'pair' },
-      { start: 30000, intervalMs: Math.round(60000/128*1.5),  count: 8,  pattern: 'single' },
-      { start: 37000, intervalMs: Math.round(60000/128),      count: 14, pattern: 'pair' },
-      { start: 45500, intervalMs: Math.round(60000/128*0.75), count: 8,  pattern: 'triple' },
-    ],
-    buildBGM: (dur) => {
-      const beat = 60 / 128;
-      const melody = [440.0, 554.37, 659.25, 739.99, 659.25, 554.37, 493.88, 440.0];
-      const bass   = [220.0, 277.18, 329.63, 369.99];
-      return [
-        ...buildMelodyLoop(melody, beat, dur),
-        ...buildBassLoop(bass, beat * 2, dur),
-      ];
-    },
-  },
+  { id:0, title:'신나는 댄스', artist:'DJ 미니', bpm:128, difficulty:2, color:'#FF6B9D', accentColor:'#FF2D7B',
+    waveType:'square' as OscillatorType, melodyNotes:[523,659,784,1047,784,659], bassNote:262,
+    lyrics:[{time:0,text:'신나게 춤춰봐! 💃'},{time:5000,text:'리듬을 느껴봐!'},{time:10000,text:'음악이 흘러~'},{time:15000,text:'멈추지 마!'},{time:20000,text:'더 더 더!'},{time:30000,text:'끝까지 가자!'},{time:40000,text:'신나는 댄스!'}],
+    notePattern:[{start:500,intervalMs:468,count:20,pattern:'single'},{start:10000,intervalMs:468,count:25,pattern:'pair'},{start:22000,intervalMs:468,count:30,pattern:'single'}] },
+
+  { id:1, title:'달콤한 꿈', artist:'꿈나라', bpm:90, difficulty:1, color:'#A78BFA', accentColor:'#7C3AED',
+    waveType:'sine' as OscillatorType, melodyNotes:[349,440,523,587,523,440,349], bassNote:175,
+    lyrics:[{time:0,text:'달콤한 꿈속에서 🌙'},{time:6000,text:'구름 위를 걸어요'},{time:12000,text:'별들이 반짝여'},{time:20000,text:'잠이 솔솔~'},{time:30000,text:'좋은 꿈 꿔요'},{time:40000,text:'달콤한 꿈~ ✨'}],
+    notePattern:[{start:1000,intervalMs:667,count:15,pattern:'single'},{start:12000,intervalMs:667,count:20,pattern:'single'},{start:26000,intervalMs:667,count:20,pattern:'pair'}] },
+
+  { id:2, title:'로켓 발사', artist:'우주소년', bpm:160, difficulty:4, color:'#F97316', accentColor:'#EA580C',
+    waveType:'sawtooth' as OscillatorType, melodyNotes:[220,262,294,330,392,440], bassNote:110,
+    lyrics:[{time:0,text:'로켓 발사! 3,2,1! 🚀'},{time:4000,text:'하늘을 뚫고!'},{time:8000,text:'우주로 GO!'},{time:15000,text:'별들 사이를!'},{time:25000,text:'빠르게 날아!'},{time:35000,text:'끝까지!'},{time:45000,text:'도착! 🌟'}],
+    notePattern:[{start:300,intervalMs:375,count:25,pattern:'single'},{start:10000,intervalMs:375,count:30,pattern:'pair'},{start:22000,intervalMs:375,count:35,pattern:'triple'}] },
+
+  { id:3, title:'봄바람', artist:'꽃요정', bpm:110, difficulty:2, color:'#34D399', accentColor:'#059669',
+    waveType:'triangle' as OscillatorType, melodyNotes:[392,494,587,659,587,494], bassNote:196,
+    lyrics:[{time:0,text:'봄바람이 불어와 🌸'},{time:6000,text:'꽃잎이 날려~'},{time:12000,text:'나비가 춤춰요'},{time:20000,text:'봄이 왔어요!'},{time:30000,text:'따뜻한 바람~'},{time:40000,text:'봄바람~ 🌷'}],
+    notePattern:[{start:600,intervalMs:545,count:18,pattern:'single'},{start:11000,intervalMs:545,count:22,pattern:'pair'},{start:24000,intervalMs:545,count:20,pattern:'single'}] },
+
+  { id:4, title:'해적왕', artist:'캡틴 강', bpm:140, difficulty:3, color:'#EAB308', accentColor:'#CA8A04',
+    waveType:'square' as OscillatorType, melodyNotes:[294,349,440,587,440,349,294], bassNote:147,
+    lyrics:[{time:0,text:'해적왕이 되겠다! 🏴‍☠️'},{time:5000,text:'보물을 찾아서!'},{time:10000,text:'바다를 건너!'},{time:18000,text:'모험이다!'},{time:28000,text:'앞으로!'},{time:38000,text:'해적왕! 👑'}],
+    notePattern:[{start:400,intervalMs:428,count:22,pattern:'single'},{start:10000,intervalMs:428,count:28,pattern:'pair'},{start:22000,intervalMs:428,count:25,pattern:'triple'}] },
+
+  { id:5, title:'별빛 축제', artist:'스타즈', bpm:120, difficulty:2, color:'#60A5FA', accentColor:'#2563EB',
+    waveType:'sine' as OscillatorType, melodyNotes:[311,392,466,523,466,392], bassNote:156,
+    lyrics:[{time:0,text:'별빛이 반짝반짝 ⭐'},{time:6000,text:'축제가 시작됐어!'},{time:12000,text:'다같이 놀자!'},{time:20000,text:'불꽃놀이! 🎆'},{time:30000,text:'신나는 밤!'},{time:40000,text:'별빛 축제! ✨'}],
+    notePattern:[{start:500,intervalMs:500,count:20,pattern:'single'},{start:11000,intervalMs:500,count:22,pattern:'pair'},{start:23000,intervalMs:500,count:22,pattern:'single'}] },
+
+  { id:6, title:'쿵쿵따', artist:'MC 붐', bpm:100, difficulty:3, color:'#A3A3A3', accentColor:'#525252',
+    waveType:'sawtooth' as OscillatorType, melodyNotes:[165,196,220,247,220,196], bassNote:82,
+    lyrics:[{time:0,text:'쿵 쿵 따! 🎤'},{time:6000,text:'리듬을 타봐!'},{time:12000,text:'몸을 흔들어!'},{time:20000,text:'쿵쿵따!'},{time:30000,text:'다같이!'},{time:40000,text:'쿵! 쿵! 따! 🔥'}],
+    notePattern:[{start:800,intervalMs:600,count:16,pattern:'single'},{start:11000,intervalMs:600,count:20,pattern:'pair'},{start:24000,intervalMs:600,count:18,pattern:'single'}] },
+
+  { id:7, title:'무지개 달리기', artist:'해피', bpm:150, difficulty:3, color:'#FB923C', accentColor:'#EA580C',
+    waveType:'triangle' as OscillatorType, melodyNotes:[466,587,698,932,698,587], bassNote:233,
+    lyrics:[{time:0,text:'무지개를 따라서 🌈'},{time:4500,text:'달려라 달려!'},{time:9000,text:'빨주노초파남보!'},{time:16000,text:'더 빠르게!'},{time:26000,text:'거의 다 왔어!'},{time:36000,text:'무지개 끝! 🏆'}],
+    notePattern:[{start:300,intervalMs:400,count:22,pattern:'single'},{start:9500,intervalMs:400,count:28,pattern:'pair'},{start:21000,intervalMs:400,count:30,pattern:'triple'}] },
+
+  { id:8, title:'마법의 성', artist:'위즈', bpm:105, difficulty:2, color:'#C084FC', accentColor:'#9333EA',
+    waveType:'sine' as OscillatorType, melodyNotes:[415,523,622,831,622,523,415], bassNote:208,
+    lyrics:[{time:0,text:'마법의 성에서 ✨'},{time:6000,text:'요정이 춤춰요'},{time:12000,text:'마법의 주문!'},{time:20000,text:'번쩍번쩍!'},{time:30000,text:'마법 완성!'},{time:40000,text:'마법의 성! 🏰'}],
+    notePattern:[{start:700,intervalMs:571,count:18,pattern:'single'},{start:11500,intervalMs:571,count:20,pattern:'pair'},{start:24000,intervalMs:571,count:18,pattern:'single'}] },
+
+  { id:9, title:'번개 맨', artist:'썬더', bpm:170, difficulty:5, color:'#FACC15', accentColor:'#EAB308',
+    waveType:'square' as OscillatorType, melodyNotes:[247,294,370,440,494], bassNote:123,
+    lyrics:[{time:0,text:'번개처럼 빠르게! ⚡'},{time:3500,text:'더 빠르게!'},{time:7000,text:'멈출 수 없어!'},{time:14000,text:'번개 맨!'},{time:22000,text:'최고 속도!'},{time:32000,text:'번개! ⚡⚡⚡'},{time:42000,text:'끝이다!'}],
+    notePattern:[{start:200,intervalMs:353,count:28,pattern:'single'},{start:10000,intervalMs:353,count:35,pattern:'pair'},{start:23000,intervalMs:353,count:35,pattern:'triple'}] },
 ];
 
 // ─── Note generator ────────────────────────────────────────────────────────────
@@ -507,19 +347,20 @@ function startBGM(song: Song) {
     const durSec = SONG_DURATION / 1000;
     const beat = 60 / song.bpm;
 
-    // Melody (sine)
-    const melodyNotes = song.buildBGM(durSec);
-    const melodyNotesBass = melodyNotes.filter(n => n.freq < 300);
-    const melodyNotesMid = melodyNotes.filter(n => n.freq >= 300);
+    // Melody using song's waveType and melodyNotes
+    const melodyBGM = buildMelodyLoop(song.melodyNotes, beat, durSec);
+    playBGM(ctx, melodyBGM, 0.1, song.waveType);
 
-    playBGM(ctx, melodyNotesMid, 0.1, 'sine');
-    playBGM(ctx, melodyNotesBass, 0.09, 'triangle');
+    // Bass line using song's bassNote
+    const bassNotes = [song.bassNote, song.bassNote * 1.25, song.bassNote * 1.5];
+    const bassBGM = buildBassLoop(bassNotes, beat * 2, durSec);
+    playBGM(ctx, bassBGM, 0.09, 'triangle');
 
     // Drum beat
     scheduleDrumBeat(ctx, song.bpm, durSec);
 
-    // Pad chord layer (gentle sustained chord)
-    const padFreqs = [song.scaleFreqs[0], song.scaleFreqs[2], song.scaleFreqs[4]];
+    // Pad chord layer
+    const padFreqs = [song.melodyNotes[0], song.melodyNotes[2], song.melodyNotes[4] ?? song.melodyNotes[0]];
     padFreqs.forEach(freq => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -774,7 +615,7 @@ export default function RhythmPage() {
     comboRef.current++;
     if (comboRef.current > maxComboRef.current) maxComboRef.current = comboRef.current;
     hitZoneGlowRef.current = 22;
-    playHitSound(lane, grade, song.scaleFreqs);
+    playHitSound(lane, grade, song.melodyNotes);
   }, [getLayout, spawnSparkles, spawnBurst, spawnHeart]);
 
   const drawLyrics = useCallback((
@@ -1463,6 +1304,13 @@ export default function RhythmPage() {
     if (!ctx) return;
     let animFrame: number;
     let tick = 0;
+    let scrollY = 0;           // current scroll offset (px)
+    let touchStartY = 0;
+    let touchStartScroll = 0;
+    let isDragging = false;
+
+    const HEADER_H = 90;       // fixed header height
+    const BTN_AREA_H = 62;     // fixed bottom button area
 
     const draw = () => {
       tick++;
@@ -1484,26 +1332,38 @@ export default function RhythmPage() {
         ctx.fill();
       }
 
+      // Fixed header
+      ctx.fillStyle = 'rgba(20,10,40,0.92)';
+      ctx.fillRect(0, 0, w, HEADER_H);
       ctx.font = `bold ${Math.min(w * 0.072, 27)}px sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = '#FFFFFF';
       ctx.shadowColor = '#C9B3F5';
       ctx.shadowBlur = 14;
-      ctx.fillText('🎵 곡 선택', w / 2, h * 0.055);
+      ctx.fillText('🎵 곡 선택', w / 2, 30);
       ctx.shadowBlur = 0;
-
       ctx.font = `${Math.min(w * 0.036, 13)}px sans-serif`;
       ctx.fillStyle = selectedChar.color;
-      ctx.fillText(`${selectedChar.emoji} ${selectedChar.name}`, w / 2, h * 0.1);
+      ctx.fillText(`${selectedChar.emoji} ${selectedChar.name}`, w / 2, 62);
 
+      // Scrollable song list
       const cardW = w - 32;
-      const cardH = Math.min(h * 0.125, 72);
-      const cardGap = 9;
-      const startY = h * 0.145;
+      const cardH = Math.min(h * 0.115, 68);
+      const cardGap = 8;
+      const listAreaH = h - HEADER_H - BTN_AREA_H;
+      const totalListH = SONGS.length * (cardH + cardGap);
+      const maxScroll = Math.max(0, totalListH - listAreaH + 12);
+      scrollY = Math.max(0, Math.min(scrollY, maxScroll));
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, HEADER_H, w, listAreaH);
+      ctx.clip();
 
       SONGS.forEach((song, idx) => {
-        const cy = startY + idx * (cardH + cardGap);
+        const cy = HEADER_H + idx * (cardH + cardGap) - scrollY;
+        if (cy + cardH < HEADER_H || cy > HEADER_H + listAreaH) return;
         const isSel = song.id === selectedSong.id;
         const p = Math.sin(tick * 0.05 + idx * 0.8) * 0.5 + 0.5;
 
@@ -1527,56 +1387,76 @@ export default function RhythmPage() {
         const textX = 28;
         const midY = cy + cardH / 2;
 
-        // BPM badge
         const bpmBadgeW = 58;
         ctx.fillStyle = song.color + '33';
         ctx.beginPath();
-        ctx.roundRect(16 + cardW - bpmBadgeW - 8, cy + 8, bpmBadgeW, 17, 8);
+        ctx.roundRect(16 + cardW - bpmBadgeW - 8, cy + 6, bpmBadgeW, 16, 8);
         ctx.fill();
         ctx.font = `bold ${Math.min(w * 0.026, 10)}px monospace`;
         ctx.textAlign = 'center';
         ctx.fillStyle = song.accentColor;
-        ctx.fillText(`BPM ${song.bpm}`, 16 + cardW - bpmBadgeW / 2 - 8, cy + 8 + 9);
+        ctx.fillText(`BPM ${song.bpm}`, 16 + cardW - bpmBadgeW / 2 - 8, cy + 6 + 8);
         ctx.textAlign = 'left';
 
-        ctx.font = `bold ${Math.min(w * 0.052, 20)}px sans-serif`;
+        ctx.font = `bold ${Math.min(w * 0.05, 19)}px sans-serif`;
         ctx.fillStyle = '#FFFFFF';
         ctx.shadowColor = isSel ? song.color : 'transparent';
         ctx.shadowBlur = isSel ? 8 : 0;
-        ctx.fillText(song.title, textX, midY - 9);
+        ctx.fillText(song.title, textX, midY - 10);
         ctx.shadowBlur = 0;
 
-        ctx.font = `${Math.min(w * 0.034, 13)}px sans-serif`;
+        ctx.font = `${Math.min(w * 0.032, 12)}px sans-serif`;
         ctx.fillStyle = song.accentColor;
-        ctx.fillText(song.artist, textX, midY + 9);
+        ctx.fillText(song.artist, textX, midY + 7);
 
-        const starSize = Math.min(w * 0.03, 12);
-        ctx.font = `${starSize}px serif`;
+        ctx.font = `${Math.min(w * 0.028, 11)}px serif`;
         let starStr = '';
         for (let s = 0; s < 5; s++) starStr += s < song.difficulty ? '★' : '☆';
         ctx.fillStyle = '#FFD700';
-        ctx.fillText(starStr, textX, midY + 25);
+        ctx.fillText(starStr, textX, midY + 22);
       });
 
-      const backY = startY + SONGS.length * (cardH + cardGap) + 12;
+      ctx.restore();
+
+      // Scroll indicator
+      if (maxScroll > 0) {
+        const trackH = listAreaH - 8;
+        const thumbH = Math.max(30, (listAreaH / totalListH) * trackH);
+        const thumbY = HEADER_H + 4 + (scrollY / maxScroll) * (trackH - thumbH);
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        ctx.beginPath();
+        ctx.roundRect(w - 6, HEADER_H + 4, 3, trackH, 2);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(201,179,245,0.5)';
+        ctx.beginPath();
+        ctx.roundRect(w - 6, thumbY, 3, thumbH, 2);
+        ctx.fill();
+      }
+
+      // Fixed bottom button area
+      const btnAreaY = h - BTN_AREA_H;
+      ctx.fillStyle = 'rgba(20,10,40,0.92)';
+      ctx.fillRect(0, btnAreaY, w, BTN_AREA_H);
+
       const backW = 100;
       const backH = 42;
+      const btnCenterY = btnAreaY + BTN_AREA_H / 2;
       ctx.fillStyle = 'rgba(255,255,255,0.08)';
       ctx.strokeStyle = 'rgba(201,179,245,0.35)';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.roundRect(16, backY, backW, backH, backH / 2);
+      ctx.roundRect(16, btnCenterY - backH / 2, backW, backH, backH / 2);
       ctx.fill();
       ctx.stroke();
       ctx.font = `${Math.min(w * 0.038, 14)}px sans-serif`;
       ctx.textAlign = 'center';
       ctx.fillStyle = '#C9B3F5';
-      ctx.fillText('← 뒤로', 16 + backW / 2, backY + backH / 2 + 1);
+      ctx.fillText('← 뒤로', 16 + backW / 2, btnCenterY + 1);
 
       const startBtnW = Math.min(w * 0.5, 185);
-      const startBtnH = 48;
+      const startBtnH = 44;
       const startBtnX = w - 16 - startBtnW;
-      const startBtnY = backY;
+      const startBtnY = btnCenterY - startBtnH / 2;
       const bp = Math.sin(tick * 0.09) * 3;
       const sbg = ctx.createLinearGradient(startBtnX, startBtnY, startBtnX + startBtnW, startBtnY);
       sbg.addColorStop(0, selectedSong.color);
@@ -1588,63 +1468,91 @@ export default function RhythmPage() {
       ctx.roundRect(startBtnX, startBtnY, startBtnW, startBtnH, startBtnH / 2);
       ctx.fill();
       ctx.shadowBlur = 0;
-      ctx.font = `bold ${Math.min(w * 0.048, 18)}px sans-serif`;
+      ctx.font = `bold ${Math.min(w * 0.046, 17)}px sans-serif`;
       ctx.textAlign = 'center';
       ctx.fillStyle = '#FFF';
-      ctx.fillText('🎮 게임 시작!', startBtnX + startBtnW / 2, startBtnY + startBtnH / 2 + 1);
+      ctx.fillText('🎮 게임 시작!', startBtnX + startBtnW / 2, btnCenterY + 1);
 
       animFrame = requestAnimationFrame(draw);
     };
     animFrame = requestAnimationFrame(draw);
 
-    const handleInput = (tx: number, ty: number) => {
+    const handleTap = (tx: number, ty: number) => {
       const w = canvas.width;
       const h = canvas.height;
-      const cardH = Math.min(h * 0.125, 72);
-      const cardGap = 9;
-      const startY = h * 0.145;
+      const cardH = Math.min(h * 0.115, 68);
+      const cardGap = 8;
+      const listAreaH = h - HEADER_H - BTN_AREA_H;
 
-      for (let idx = 0; idx < SONGS.length; idx++) {
-        const cy = startY + idx * (cardH + cardGap);
-        if (tx >= 16 && tx <= w - 16 && ty >= cy && ty <= cy + cardH) {
-          setSelectedSong(SONGS[idx]);
-          playSelectSound(SONGS[idx].scaleFreqs[0]);
-          return;
+      if (ty >= HEADER_H && ty <= HEADER_H + listAreaH) {
+        for (let idx = 0; idx < SONGS.length; idx++) {
+          const cy = HEADER_H + idx * (cardH + cardGap) - scrollY;
+          if (tx >= 16 && tx <= w - 16 && ty >= cy && ty <= cy + cardH) {
+            setSelectedSong(SONGS[idx]);
+            playSelectSound(SONGS[idx].melodyNotes[0]);
+            return;
+          }
         }
       }
 
-      const backY = startY + SONGS.length * (cardH + cardGap) + 12;
-      if (tx >= 16 && tx <= 116 && ty >= backY && ty <= backY + 42) {
+      const btnAreaY = h - BTN_AREA_H;
+      const btnCenterY = btnAreaY + BTN_AREA_H / 2;
+      const backH = 42;
+      if (tx >= 16 && tx <= 116 && ty >= btnCenterY - backH / 2 && ty <= btnCenterY + backH / 2) {
         cancelAnimationFrame(animFrame);
         phaseRef.current = 'charSelect';
         setPhase('charSelect');
         return;
       }
-
       const startBtnW = Math.min(w * 0.5, 185);
       const startBtnX = w - 16 - startBtnW;
-      if (tx >= startBtnX && tx <= startBtnX + startBtnW && ty >= backY && ty <= backY + 48) {
+      const startBtnH = 44;
+      if (tx >= startBtnX && tx <= startBtnX + startBtnW && ty >= btnCenterY - startBtnH / 2 && ty <= btnCenterY + startBtnH / 2) {
         cancelAnimationFrame(animFrame);
         startGame(selectedChar, selectedSong);
       }
     };
 
-    const onTouch = (e: TouchEvent) => {
+    const onTouchStart = (e: TouchEvent) => {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
-      handleInput(e.changedTouches[0].clientX - rect.left, e.changedTouches[0].clientY - rect.top);
+      touchStartY = e.changedTouches[0].clientY - rect.top;
+      touchStartScroll = scrollY;
+      isDragging = false;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const dy = (e.changedTouches[0].clientY - rect.top) - touchStartY;
+      if (Math.abs(dy) > 5) isDragging = true;
+      if (isDragging) scrollY = touchStartScroll - dy;
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      e.preventDefault();
+      if (!isDragging) {
+        const rect = canvas.getBoundingClientRect();
+        handleTap(e.changedTouches[0].clientX - rect.left, e.changedTouches[0].clientY - rect.top);
+      }
+      isDragging = false;
     };
     const onClick = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      handleInput(e.clientX - rect.left, e.clientY - rect.top);
+      handleTap(e.clientX - rect.left, e.clientY - rect.top);
     };
+    const onWheel = (e: WheelEvent) => { scrollY += e.deltaY; };
 
-    canvas.addEventListener('touchstart', onTouch, { passive: false });
+    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+    canvas.addEventListener('touchend', onTouchEnd, { passive: false });
     canvas.addEventListener('click', onClick);
+    canvas.addEventListener('wheel', onWheel, { passive: true });
     return () => {
       cancelAnimationFrame(animFrame);
-      canvas.removeEventListener('touchstart', onTouch);
+      canvas.removeEventListener('touchstart', onTouchStart);
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', onTouchEnd);
       canvas.removeEventListener('click', onClick);
+      canvas.removeEventListener('wheel', onWheel);
     };
   }, [phase, selectedChar, selectedSong, startGame]);
 

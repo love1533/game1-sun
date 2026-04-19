@@ -123,6 +123,17 @@ const games = [
     bg: "#FFF0F6",
     border: "#FBCFE8",
   },
+  {
+    id: "meme",
+    name: "밈밈!",
+    desc: "밈과 영화 제목을 맞춰봐!",
+    href: "/games/meme",
+    emoji: "🎮",
+    tag: "NEW",
+    tagColor: "#EF4444",
+    bg: "#FFFDE0",
+    border: "#FDE68A",
+  },
 ];
 
 const characters = [

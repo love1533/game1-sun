@@ -22,6 +22,7 @@ const GAMES = [
   { id: "tower", label: "블록쌓기", emoji: "🧱" },
   { id: "english", label: "영어 단어", emoji: "🔤" },
   { id: "math", label: "수학 천재", emoji: "🧮" },
+  { id: "meme", label: "밈밈!", emoji: "🎮" },
 ] as const;
 
 type GameId = (typeof GAMES)[number]["id"] | "all";
