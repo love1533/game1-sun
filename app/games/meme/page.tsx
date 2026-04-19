@@ -141,10 +141,21 @@ function playSound(type: 'correct' | 'wrong' | 'tick') {
   } catch { /* unsupported */ }
 }
 
+const CHARACTERS = [
+  { name: '승민', emoji: '🤖', color: '#3B82F6' },
+  { name: '건우', emoji: '🩺', color: '#10B981' },
+  { name: '강우', emoji: '👨‍🍳', color: '#F59E0B' },
+  { name: '수현', emoji: '💃', color: '#EC4899' },
+  { name: '이현', emoji: '👸', color: '#FF69B4' },
+  { name: '준영', emoji: '📚', color: '#6366F1' },
+  { name: '준우', emoji: '✈️', color: '#0EA5E9' },
+];
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function MemePage() {
   const [screen, setScreen] = useState<GameScreen>('home');
+  const [selectedChar, setSelectedChar] = useState(-1);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentRound, setCurrentRound] = useState(0);
   const [choices, setChoices] = useState<string[]>([]);
@@ -196,8 +207,9 @@ export default function MemePage() {
       setBestScore(finalScore);
       localStorage.setItem('meme-best-score', String(finalScore));
     }
-    saveScore('meme', '플레이어', finalScore);
-  }, [bestScore]);
+    const charName = selectedChar >= 0 ? CHARACTERS[selectedChar].name : '플레이어';
+    saveScore('meme', charName, finalScore);
+  }, [bestScore, selectedChar]);
 
   const handleChoice = useCallback((choice: string, currentTimeLeft: number) => {
     if (isAnswered) return;
@@ -337,9 +349,35 @@ export default function MemePage() {
               ))}
             </div>
 
+            {/* Character select */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+              <p className="text-xs text-gray-400 font-semibold mb-2.5 text-center">누가 플레이할까?</p>
+              <div className="flex gap-1.5 justify-center flex-wrap">
+                {CHARACTERS.map((c, i) => (
+                  <button key={c.name} onClick={() => setSelectedChar(i)}
+                    className="flex flex-col items-center gap-0.5 w-10 transition-transform active:scale-90"
+                    style={{
+                      opacity: selectedChar === -1 || selectedChar === i ? 1 : 0.4,
+                      transform: selectedChar === i ? 'scale(1.15)' : 'scale(1)',
+                    }}>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg border-2"
+                      style={{
+                        borderColor: selectedChar === i ? c.color : '#E5E7EB',
+                        backgroundColor: selectedChar === i ? c.color + '20' : '#F9FAFB',
+                      }}>
+                      {c.emoji}
+                    </div>
+                    <span className="text-[9px] font-bold" style={{ color: selectedChar === i ? c.color : '#9CA3AF' }}>{c.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <button
-              onClick={startGame}
-              className="w-full py-5 bg-[#7C3AED] text-white text-xl font-black rounded-2xl shadow-lg active:scale-95 transition-transform"
+              onClick={() => { if (selectedChar >= 0) startGame(); }}
+              disabled={selectedChar < 0}
+              className="w-full py-5 text-white text-xl font-black rounded-2xl shadow-lg active:scale-95 transition-all disabled:opacity-40 disabled:active:scale-100"
+              style={{ backgroundColor: selectedChar >= 0 ? '#7C3AED' : '#D1D5DB' }}
             >
               🔥 시작하기
             </button>
