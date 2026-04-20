@@ -16,7 +16,7 @@ export interface ScoreEntry {
   gameId: string;
 }
 
-const COLLECTION = "rankings";
+const COLLECTION = "rankings_sun";
 
 // ── Save ─────────────────────────────────────────────────────────────────────
 
@@ -134,12 +134,12 @@ export async function getPlayerBest(
 
 export function clearRankings(): void {
   if (typeof window === "undefined") return;
-  localStorage.removeItem("game-rankings");
+  localStorage.removeItem("game-rankings-sun");
 }
 
 // ── localStorage helpers ─────────────────────────────────────────────────────
 
-const STORAGE_KEY = "game-rankings";
+const STORAGE_KEY = "game-rankings-sun";
 const MAX_PER_GAME = 100;
 
 function _localLoadAll(): ScoreEntry[] {

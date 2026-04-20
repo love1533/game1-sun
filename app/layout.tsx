@@ -2,12 +2,12 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "미니게임월드",
-  description: "놀면서 배우는 재미있는 미니게임 모음! 영어, 수학, 퀴즈, 리듬게임 등 12가지 🎮",
-  keywords: "미니게임,교육게임,영어게임,수학게임,초등교육,어린이게임",
+  title: "한자왕 - 용진 & 용정의 한자 학습",
+  description: "8급부터 1급까지! 한자 급수 시험 대비 학습 게임 漢",
+  keywords: "한자,한자학습,한자급수,한자시험,한자왕,교육게임",
   openGraph: {
-    title: "🎮 미니게임월드",
-    description: "놀면서 배우는 재미있는 미니게임 12종! 영어, 수학, 퀴즈, 슈팅, 탕후루 등",
+    title: "漢 한자왕",
+    description: "8급부터 1급까지! 용진 & 용정의 한자 학습 게임",
     type: "website",
   },
 };
