@@ -70,9 +70,10 @@ export async function getGameRankings(gameId: string): Promise<ScoreEntry[]> {
       }
       if (entries.length >= 10) break;
     }
-    // If Firestore returned results, use them; otherwise fall back
-    if (snap.docs.length > 0) return entries;
-    return _localGetGame(gameId);
+    // Merge: Firestore results + localStorage (deduped, in case save was delayed)
+    const local = _localGetGame(gameId);
+    const merged = _mergeEntries(entries, local);
+    return merged.slice(0, 10);
   } catch (err) {
     console.error("❌ Firestore read failed:", err);
     return _localGetGame(gameId);
@@ -87,18 +88,17 @@ export async function getAllRankings(): Promise<ScoreEntry[]> {
       limit(50)
     );
     const snap = await getDocs(q);
-    if (snap.docs.length > 0) {
-      return snap.docs.map((d) => {
-        const data = d.data();
-        return {
-          playerName: data.playerName,
-          score: data.score,
-          date: data.date,
-          gameId: data.gameId,
-        } as ScoreEntry;
-      });
-    }
-    return _localGetAll();
+    const firestoreEntries = snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        playerName: data.playerName,
+        score: data.score,
+        date: data.date,
+        gameId: data.gameId,
+      } as ScoreEntry;
+    });
+    const local = _localGetAll();
+    return _mergeEntries(firestoreEntries, local).slice(0, 50);
   } catch (err) {
     console.error("❌ Firestore read failed:", err);
     return _localGetAll();
@@ -124,8 +124,14 @@ export async function getPlayerBest(
         }
       }
     }
-    if (snap.docs.length > 0) return best;
-    return _localGetPlayerBest(playerName);
+    // Merge with localStorage
+    const localBest = _localGetPlayerBest(playerName);
+    for (const [gid, sc] of Object.entries(localBest)) {
+      if (!(gid in best) || sc > best[gid]) {
+        best[gid] = sc;
+      }
+    }
+    return best;
   } catch (err) {
     console.error("❌ Firestore read failed:", err);
     return _localGetPlayerBest(playerName);
@@ -135,6 +141,21 @@ export async function getPlayerBest(
 export function clearRankings(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem("game-rankings-sun");
+}
+
+// ── Merge helper (dedup Firestore + localStorage) ───────────────────────────
+
+function _mergeEntries(a: ScoreEntry[], b: ScoreEntry[]): ScoreEntry[] {
+  const seen = new Set<string>();
+  const result: ScoreEntry[] = [];
+  for (const entry of [...a, ...b]) {
+    const key = `${entry.playerName}|${entry.gameId}|${entry.score}|${entry.date}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      result.push(entry);
+    }
+  }
+  return result.sort((x, y) => y.score - x.score);
 }
 
 // ── localStorage helpers ─────────────────────────────────────────────────────
