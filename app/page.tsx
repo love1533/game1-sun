@@ -8,6 +8,17 @@ const GAMES_PER_PAGE = 4;
 
 const games = [
   {
+    id: "hanja",
+    name: "한자왕",
+    desc: "8급부터 도전! 내 한자 급수는?",
+    href: "/games/hanja",
+    emoji: "漢",
+    tag: "NEW",
+    tagColor: "#EF4444",
+    bg: "#FFF8F0",
+    border: "#FBBF24",
+  },
+  {
     id: "meme",
     name: "밈밈!",
     desc: "밈과 영화 제목을 맞춰봐!",
