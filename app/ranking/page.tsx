@@ -10,6 +10,9 @@ import {
 
 const GAMES = [
   { id: "hanja", label: "한자왕", emoji: "漢" },
+  { id: "hanja-match", label: "한자 매칭", emoji: "🃏" },
+  { id: "hanja-speed", label: "한자 스피드", emoji: "⚡" },
+  { id: "sajaseongeo", label: "사자성어", emoji: "📜" },
 ] as const;
 
 type GameId = (typeof GAMES)[number]["id"] | "all";
@@ -144,7 +147,8 @@ export default function RankingPage() {
   }, [activeTab]);
 
   const tabs: { id: GameId; label: string; emoji: string }[] = [
-    { id: "hanja", label: "한자왕", emoji: "漢" },
+    ...GAMES.map(g => ({ id: g.id as GameId, label: g.label, emoji: g.emoji })),
+    { id: "all" as GameId, label: "전체", emoji: "🏆" },
   ];
 
   return (

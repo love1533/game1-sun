@@ -34,13 +34,8 @@ interface WrongNote {
 
 // ─── Constants ──────────────────────────────────────────────────────
 const characters: Character[] = [
-  { name: '승민', emoji: '🤖', color: '#3B82F6' },
-  { name: '건우', emoji: '🩺', color: '#10B981' },
-  { name: '강우', emoji: '👨‍🍳', color: '#F59E0B' },
-  { name: '수현', emoji: '💃', color: '#EC4899' },
-  { name: '이현', emoji: '👸', color: '#FF69B4' },
-  { name: '준영', emoji: '📚', color: '#6366F1' },
-  { name: '준우', emoji: '✈️', color: '#0EA5E9' },
+  { name: '용진', emoji: '🐉', color: '#F59E0B' },
+  { name: '용정', emoji: '🌟', color: '#EC4899' },
 ];
 
 const LEVEL_ORDER = ['8', '준7', '7', '준6', '6', '준5', '5', '준4', '4', '준3', '3', '2', '1'];
