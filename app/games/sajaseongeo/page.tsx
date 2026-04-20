@@ -375,10 +375,11 @@ export default function SajaseongeoGame() {
       playSound('wrong');
     }
 
-    setTimeout(() => {
-      setRound((r) => r + 1);
-    }, 2200);
   }, [showResult, question, combo]);
+
+  const goNext = useCallback(() => {
+    setRound((r) => r + 1);
+  }, []);
 
   // ─── Render: Character Select ─────────────────────────────────────
   if (phase === 'select') {
@@ -614,6 +615,14 @@ export default function SajaseongeoGame() {
                 </p>
                 <p className="text-white/70">{question.sajaseongeo.meaning}</p>
               </div>
+
+              <button
+                onClick={goNext}
+                className="mt-4 w-full bg-yellow-500 hover:bg-yellow-400 text-red-900 font-bold
+                           py-3 rounded-xl transition-all active:scale-[0.98] text-base"
+              >
+                {round + 1 < TOTAL_ROUNDS ? '다음 문제 →' : '결과 보기 →'}
+              </button>
             </div>
           )}
         </div>
