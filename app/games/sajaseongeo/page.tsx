@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { saveScore } from '@/lib/ranking';
 
 // ─── Types ──────────────────────────────────────────────────────────
@@ -284,51 +284,47 @@ export default function SajaseongeoGame() {
   const [question, setQuestion] = useState<Question | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [usedIds, setUsedIds] = useState<Set<string>>(new Set());
-  const [gameData, setGameData] = useState<Sajaseongeo[]>([]);
+  const usedIdsRef = useRef<Set<string>>(new Set());
+  const gameDataRef = useRef<Sajaseongeo[]>(shuffle(SAJASEONGEO_DATA));
   const [scoreSaved, setScoreSaved] = useState(false);
 
-  // Initialize game data (shuffled)
-  useEffect(() => {
-    setGameData(shuffle(SAJASEONGEO_DATA));
-  }, []);
-
   // Generate next question
-  const nextQuestion = useCallback(() => {
-    const available = gameData.filter((s) => !usedIds.has(s.id));
-    const pool = available.length >= 4 ? available : gameData;
-    const q = generateQuestion(round, pool);
+  const loadQuestion = useCallback((r: number) => {
+    const available = gameDataRef.current.filter((s) => !usedIdsRef.current.has(s.id));
+    const pool = available.length >= 4 ? available : gameDataRef.current;
+    const q = generateQuestion(r, pool);
     if (q.sajaseongeo) {
-      setUsedIds((prev) => new Set(prev).add(q.sajaseongeo.id));
+      usedIdsRef.current.add(q.sajaseongeo.id);
     }
     setQuestion(q);
     setSelectedIndex(null);
     setShowResult(false);
     setTimer(TIMER_SECONDS);
-  }, [round, gameData, usedIds]);
+  }, []);
 
   // Start game
   const startGame = useCallback((char: Character) => {
     setCharacter(char);
-    setPhase('playing');
+    usedIdsRef.current = new Set();
+    gameDataRef.current = shuffle(SAJASEONGEO_DATA);
     setRound(0);
     setScore(0);
     setCombo(0);
     setMaxCombo(0);
     setCorrectCount(0);
-    setUsedIds(new Set());
     setScoreSaved(false);
+    setPhase('playing');
   }, []);
 
   // Generate question when round changes during playing
   useEffect(() => {
     if (phase === 'playing' && round < TOTAL_ROUNDS) {
-      nextQuestion();
+      loadQuestion(round);
     } else if (phase === 'playing' && round >= TOTAL_ROUNDS) {
       setPhase('result');
       playSound('complete');
     }
-  }, [phase, round, nextQuestion]);
+  }, [phase, round, loadQuestion]);
 
   // Timer
   useEffect(() => {
